@@ -4,9 +4,10 @@ CREATE TABLE IF NOT EXISTS user (
     last_name VARCHAR(255) NOT NULL,
     begin_of_apprenticeship DATE NOT NULL,
     label VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
 
+    CONSTRAINT UC_user UNIQUE (first_name, last_name),
     PRIMARY KEY (id)
 );
 
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS report_entry (
     department VARCHAR(255) NOT NULL,
     user_id INTEGER NOT NULL,
 
+    CONSTRAINT UC_report_entry UNIQUE (user_id, date),
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
