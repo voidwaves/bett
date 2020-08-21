@@ -25,6 +25,8 @@ public class User {
     private String lastName;
     private LocalDate beginOfApprenticeship;
     private String label;
+    private String username;
+    private String password;
 
     @ToString.Exclude
     @JsonManagedReference

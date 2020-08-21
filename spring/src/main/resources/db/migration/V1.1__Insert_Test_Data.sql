@@ -1,6 +1,6 @@
-INSERT INTO user (first_name, last_name, begin_of_apprenticeship, label) VALUES
-    ('Jonas', 'Hellwig', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung'),
-    ('Martin', 'Manka', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung aber cooler');
+INSERT INTO user (first_name, last_name, begin_of_apprenticeship, label, username, password) VALUES
+    ('Jonas', 'Hellwig', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung', 'javaforever', '123456'),
+    ('Martin', 'Manka', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung aber cooler', 'xXProgamer95Xx', 'password');
 
 INSERT INTO report_entry (content, date, working_hours, department, user_id) VALUES
     ('Ich war fleißig', '2020-08-20', 7.8, 'Berufsschule', 1),

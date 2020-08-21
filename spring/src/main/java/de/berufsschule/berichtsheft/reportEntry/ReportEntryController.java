@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import static de.berufsschule.berichtsheft.util.DateUtil.parseToLocalDate;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/reportentry")
 public class ReportEntryController {
