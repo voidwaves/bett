@@ -24,6 +24,30 @@ const App: FunctionComponent = () => {
   const [endDate, setEndDate] = useState(new Date())
   const [reportEntries, setReportEntries] = useState<ReportEntry[]>([])
 
+  useEffect(() => {
+    axios.get<{token: string}>(`${api}/authenticate`, {
+      params: {
+        user: 'Jonas',
+        password: '12345'
+      }
+    })
+    .then(response => {
+      setToken(response.data.token)
+      console.log(response.data.token)
+
+      axios.interceptors.request.use(
+        config => {
+          config.headers.authentication = `Bearer ${response.data.token}`
+          return config
+        },
+        (error: any) => {
+          Promise.reject(error)
+        }
+      )
+    })
+    .catch(() => console.log('..............'))
+  }, [])
+
   const buttonClick = () => {
     const start = format(startDate, 'YYYY-MM-DD')
     const end = format(endDate, 'YYYY-MM-DD')
@@ -32,7 +56,7 @@ const App: FunctionComponent = () => {
       params: {
         start: start,
         end: end
-      },
+      }
     })
     .then(reportEntries => setReportEntries(reportEntries.data))
     .catch(error => alert(error))
