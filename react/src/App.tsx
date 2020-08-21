@@ -25,11 +25,9 @@ const App: FunctionComponent = () => {
   const [reportEntries, setReportEntries] = useState<ReportEntry[]>([])
 
   useEffect(() => {
-    axios.get<{token: string}>(`${api}/authenticate`, {
-      params: {
-        user: 'Jonas',
-        password: '12345'
-      }
+    axios.post<{token: string}>(`${api}/authenticate`, {
+      username: 'javaforever',
+      password: '123456'
     })
     .then(response => {
       setToken(response.data.token)
@@ -37,7 +35,7 @@ const App: FunctionComponent = () => {
 
       axios.interceptors.request.use(
         config => {
-          config.headers.authentication = `Bearer ${response.data.token}`
+          config.headers.Authorization = `Bearer ${response.data.token}`
           return config
         },
         (error: any) => {
