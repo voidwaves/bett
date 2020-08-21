@@ -24,18 +24,19 @@ const App: FunctionComponent = () => {
   const [endDate, setEndDate] = useState(new Date())
   const [reportEntries, setReportEntries] = useState<ReportEntry[]>([])
 
-  useEffect(() => {
+  const buttonClick = () => {
     const start = format(startDate, 'YYYY-MM-DD')
     const end = format(endDate, 'YYYY-MM-DD')
 
-    axios.get<ReportEntry[]>(`${api}/reportentry/`, {
+    axios.get<ReportEntry[]>(`${api}/reportentry`, {
       params: {
         start: start,
         end: end
-      }
+      },
     })
     .then(reportEntries => setReportEntries(reportEntries.data))
-  })
+    .catch(error => alert(error))
+  }
 
   return ( 
     <Fragment>
@@ -43,6 +44,7 @@ const App: FunctionComponent = () => {
       <DatePicker selected={startDate} onChange={date => setStartDate(date as Date)}/>
       <h2>Select an end date:</h2>
       <DatePicker selected={endDate} onChange={date => setEndDate(date as Date)}/>
+      <button onClick={buttonClick}>get report entries</button>
       {reportEntries === undefined ? null : reportEntries.map(reportEntry => (
         <Fragment>
           <h3>{reportEntry.id}</h3>
