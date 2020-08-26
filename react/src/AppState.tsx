@@ -15,10 +15,11 @@ const LoginContext: Context<LoginHook> = createContext<LoginHook>([defaultLoginS
 
 const LoginStateProvider: FunctionComponent = ({ children }) => {
   const [loginState, setLoginState] = useState(defaultLoginState)
+  const login = useLogin()
 
   useEffect(() => {
     const token = getToken()
-    if(token !== null) addTokenToHeaders(token)
+    if(token !== null) login(token)
   }, [])
 
   return (
