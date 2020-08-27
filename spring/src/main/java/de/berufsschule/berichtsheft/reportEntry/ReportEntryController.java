@@ -16,6 +16,7 @@ import static de.berufsschule.berichtsheft.util.DateUtil.parseToLocalDate;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reportentry")
+@CrossOrigin
 public class ReportEntryController {
 
     private final ReportEntryService reportEntryService;

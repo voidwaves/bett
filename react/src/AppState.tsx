@@ -23,7 +23,8 @@ export const LoginStateProvider: FunctionComponent = ({ children }) => {
     const token = getToken()
     if(token !== null) {
       // check if token has not been expired!
-      login(token)
+      const interceptor = addTokenToHeaders(token)
+      setLoginState({isAuthorized: true, interceptor})
     }
   }, [])
 
@@ -41,7 +42,9 @@ const removeToken = () => sessionStorage.removeItem(appKey)
 
 const addTokenToHeaders = (token: string): number => {
   return axios.interceptors.request.use(config => (
-    {...config, Authorization: `Bearer ${token}`}
+    {...config, headers: {
+      Authorization: `Bearer ${token}`
+    }}
   ))
 }
 
@@ -57,19 +60,19 @@ export const useLoginState = () => {
 }
 
 export const useLogin = () => {
-  const [, setloginState] = useLoginContext()
+  const [, setLoginState] = useLoginContext()
   return (token: string) => {
     setToken(token)
     const interceptor = addTokenToHeaders(token)
-    setloginState({isAuthorized: true, interceptor})
+    setLoginState({isAuthorized: true, interceptor})
   }
 }
 
 export const useLogout = () => {
-  const [{ interceptor }, setloginState] = useLoginContext()
+  const [{ interceptor }, setLoginState] = useLoginContext()
   return () => {
     removeToken()
     removeTokenFromHeader(interceptor)
-    setloginState({isAuthorized: false, interceptor: 0})
+    setLoginState({isAuthorized: false, interceptor: 0})
   }
 }

@@ -3,6 +3,7 @@ import React, { FunctionComponent, Fragment, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { format } from 'ts-date'
 import axios from 'axios'
+import 'react-datepicker/dist/react-datepicker.css'
 
 type ReportEntry = {
     id: number

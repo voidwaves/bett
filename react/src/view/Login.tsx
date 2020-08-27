@@ -9,7 +9,11 @@ const Login: FunctionComponent = () => {
     const login = useLogin()
 
     const handleSubmit = () => {
-        const body = {userName, password}
+        const body = {
+            username: userName,
+            password: password
+        }
+
         const api = 'http://localhost:8081'
 
         axios.post<{token: string}>(`${api}/authenticate`, body)
@@ -17,7 +21,7 @@ const Login: FunctionComponent = () => {
             login(response.data.token)
         })
         .catch(() => {
-            setPassword('')
+            setPassword('deleted....')
         })
     }
 
