@@ -1,6 +1,13 @@
 import React, { FunctionComponent, Fragment, useState, useEffect, createContext, Context, Dispatch, useContext } from 'react'
 import axios from 'axios'
-import { Redirect, BrowserRouter } from 'react-router-dom'
+import { Redirect, BrowserRouter, Switch, Route } from 'react-router-dom'
+import { LoginStateProvider, useLoginState } from './AppState'
+import Home from './view/Home'
+import Landing from './view/Landing'
+import Profile from './view/Profile'
+import ReportEntries from './view/ReportEntries'
+import Register from './view/Register'
+import Login from './view/Login'
 
 // import DatePicker from 'react-datepicker'
 // import "react-datepicker/dist/react-datepicker.css"
@@ -80,3 +87,42 @@ import { Redirect, BrowserRouter } from 'react-router-dom'
 // }
 
 // export default App
+
+const WrappedApp = () => (
+    <LoginStateProvider>
+        <App/>
+    </LoginStateProvider>
+)
+
+const App = () => {
+    const isAuthorized = useLoginState()
+    return isAuthorized ? <CoreApp/> : <LoginApp/>
+}
+
+const CoreApp = () => (
+    <Fragment>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path='/home' component={Home}/>
+                <Route exact path='/profile' component={Profile}/>
+                <Route exact path='/reportentries' component={ReportEntries}/>
+                <Redirect from='/*' to='/home'/>
+            </Switch>
+        </BrowserRouter>
+    </Fragment>
+)
+
+const LoginApp = () => (
+    <Fragment>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path='/landing' component={Landing}/>
+                <Route exact path='/register' component={Register}/>
+                <Route exact path='/login' component={Login}/>
+                <Redirect from='/*' to='/landing'/>
+            </Switch>
+        </BrowserRouter>
+    </Fragment>
+)
+
+export default WrappedApp

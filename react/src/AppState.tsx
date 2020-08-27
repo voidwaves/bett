@@ -6,20 +6,25 @@ type LoginState = {
   isAuthorized: boolean
   interceptor: number
 }
+
 const defaultLoginState: LoginState = {
   isAuthorized: false,
-  interceptor: 0
+  interceptor: -1
 }
+
 type LoginHook = [LoginState, Dispatch<LoginState>]
 const LoginContext: Context<LoginHook> = createContext<LoginHook>([defaultLoginState, () => {}])
 
-const LoginStateProvider: FunctionComponent = ({ children }) => {
+export const LoginStateProvider: FunctionComponent = ({ children }) => {
   const [loginState, setLoginState] = useState(defaultLoginState)
   const login = useLogin()
 
   useEffect(() => {
     const token = getToken()
-    if(token !== null) login(token)
+    if(token !== null) {
+      // check if token has not been expired!
+      login(token)
+    }
   }, [])
 
   return (
@@ -34,7 +39,7 @@ const setToken = (token: string) => sessionStorage.setItem(appKey, token)
 const getToken = () => sessionStorage.getItem(appKey)
 const removeToken = () => sessionStorage.removeItem(appKey)
 
-const addTokenToHeaders = (token: string) => {
+const addTokenToHeaders = (token: string): number => {
   return axios.interceptors.request.use(config => (
     {...config, Authorization: `Bearer ${token}`}
   ))
@@ -47,8 +52,8 @@ const removeTokenFromHeader = (interceptor: number) => {
 const useLoginContext = () => useContext(LoginContext)
 
 export const useLoginState = () => {
-  const [loginState] = useLoginContext()
-  return loginState
+  const [{ isAuthorized }] = useLoginContext()
+  return isAuthorized
 }
 
 export const useLogin = () => {
