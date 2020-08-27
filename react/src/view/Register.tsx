@@ -50,6 +50,7 @@ const Register: FunctionComponent = () => {
             <input type='text' onChange={fromEvent(setLastName)}/>
             <h2>enter your job label</h2>
             <input type='text' onChange={fromEvent(setLabel)}/>
+            <h2>enter the start date of your apprenticeship</h2>
             <DatePicker selected={startDate} onChange={date => setStartDate(date as Date)}/>
             <br/>
             <button onClick={handleSubmit}>register</button>
