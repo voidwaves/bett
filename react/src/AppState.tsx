@@ -17,7 +17,6 @@ const LoginContext: Context<LoginHook> = createContext<LoginHook>([defaultLoginS
 
 export const LoginStateProvider: FunctionComponent = ({ children }) => {
   const [loginState, setLoginState] = useState(defaultLoginState)
-  const login = useLogin()
 
   useEffect(() => {
     const token = getToken()
