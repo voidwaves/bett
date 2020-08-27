@@ -12,11 +12,7 @@ public class ReportEntryService {
 
     private final ReportEntryRepository reportEntryRepository;
 
-    public List<ReportEntry> findByUserId(Integer id) {
-        return reportEntryRepository.findAllByUserId(id);
-    }
-
-    public List<ReportEntry> findAllInDateRange(LocalDate startDate, LocalDate endDate) {
-        return reportEntryRepository.findAllInDateRange(startDate, endDate);
+    public List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
+        return reportEntryRepository.findAllInDateRangeByUserId(startDate, endDate, userId);
     }
 }

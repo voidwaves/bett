@@ -1,27 +1,26 @@
 package de.berufsschule.berichtsheft.user;
 
+import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
+    private final JwtTokenUtil tokenUtil;
 
     @GetMapping
-    private ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
-    }
+    private ResponseEntity<?> getUser(@RequestHeader("Authorization") String authorization) {
 
-    @GetMapping("/{id}")
-    private ResponseEntity<?> getUser(@PathVariable("id") Integer id) {
+        String token = authorization.substring(7);
+        String username = tokenUtil.getUsernameFromToken(token);
+        User user = userService.findByUsername(username);
 
-        User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
