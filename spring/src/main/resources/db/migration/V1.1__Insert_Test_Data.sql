@@ -1,7 +1,7 @@
 INSERT INTO user (first_name, last_name, begin_of_apprenticeship, label, username, password) VALUES
     ('Jonas', 'Hellwig', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung', 'javaforever', '$2a$10$1IzDO2J03W3IsuWVYGlqyebDcKzxumEy35wDfMx1Q/86wmnjE4hgm'),
     -- pw is '123456'
-    ('Martin', 'Manka', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung aber cooler', 'xXProgamer95Xx', '$2a$10$6cToq2vveB.f1I6Rfr2e7uvjNpH2CQ1muBvMaViUBLjts8IAezSN2');
+    ('Martin', 'Manka', '2018-07-31', 'Fachinformatiker Anwendungsentwicklung aber cooler', 'testuser', '$2a$10$6cToq2vveB.f1I6Rfr2e7uvjNpH2CQ1muBvMaViUBLjts8IAezSN2');
     -- pw is 'password'
 
 INSERT INTO report_entry (content, date, working_hours, department, user_id) VALUES
