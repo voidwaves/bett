@@ -1,10 +1,17 @@
+import ReportEntries from "./view/ReportEntries"
+
+export namespace App {
+    export type ReportEntry = ApiResponse.ReportEntry & {
+        beginOfApprenticeship: Date
+    }
+}
 
 export namespace ApiResponse {
     export type ReportEntry = {
         id: number
         user: User
         content: string
-        date: Date
+        reportDate: string
         workingHours: number
         department: string
     }
@@ -13,7 +20,7 @@ export namespace ApiResponse {
         id: number
         fistName: string
         lastName: string
-        beginOfApprenticeship: Date
+        beginOfApprenticeship: string
         label: string
         username: string
         password: string
@@ -22,11 +29,14 @@ export namespace ApiResponse {
 
 export namespace ApiRequest {
     export namespace ReportEntry {
-        export type Put = {
-
+        export type Put = Post & {
+            id: number
         }
         export type Post = {
-
+            content: string
+            reportDate: string
+            workingHours: number
+            department: string
         }
         export type Params = {
             params: {
@@ -36,11 +46,16 @@ export namespace ApiRequest {
         }
     }
     export namespace User {
-        export type Put = {
-
+        export type Put = Post & {
+            id: number
         }
         export type Post = {
-            
+            fistName: string
+            lastName: string
+            beginOfApprenticeship: string
+            label: string
+            username: string
+            password: string
         }
     }
     export type Login = {
