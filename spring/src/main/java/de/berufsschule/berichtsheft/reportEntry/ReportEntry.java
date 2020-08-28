@@ -14,14 +14,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-@Table(name = "report_entry")
+@Table(name = "report_entry_table")
 public class ReportEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String content;
-    private LocalDate date;
+    private LocalDate reportDate;
     private Double workingHours;
     private String department;
 

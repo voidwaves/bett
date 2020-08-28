@@ -12,7 +12,7 @@ import java.util.List;
 public interface ReportEntryRepository extends JpaRepository<ReportEntry, Integer> {
 
     @Query("SELECT re FROM ReportEntry re WHERE re.userId = :userId AND " +
-            "re.date BETWEEN :startDate AND :endDate")
+            "re.reportDate BETWEEN :startDate AND :endDate")
     List<ReportEntry> findAllInDateRangeByUserId(
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
