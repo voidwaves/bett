@@ -9,6 +9,7 @@ import ReportEntries from './view/ReportEntries'
 import Register from './view/Register'
 import Login from './view/Login'
 import NewReportEntry from './view/NewReportEntry'
+import { links } from './Links'
 
 // import DatePicker from 'react-datepicker'
 // import "react-datepicker/dist/react-datepicker.css"
@@ -100,15 +101,16 @@ const App = () => {
     return isAuthorized ? <CoreApp/> : <LoginApp/>
 }
 
+const { home, profile, reportEntries, landing, register, login } = links.browser
+
 const CoreApp = () => (
     <Fragment>
         <BrowserRouter>
             <Switch>
-                <Route exact path='/home' component={Home}/>
-                <Route exact path='/profile' component={Profile}/>
-                <Route exact path='/reportentries' component={ReportEntries}/>
-                <Route exact path='/reportentries/new' component={NewReportEntry}/>
-                <Redirect from='/*' to='/home'/>
+                <Route exact path={home} component={Home}/>
+                <Route exact path={profile} component={Profile}/>
+                <Route exact path={reportEntries} component={ReportEntries}/>
+                <Redirect from='/*' to={home}/>
             </Switch>
         </BrowserRouter>
     </Fragment>
@@ -118,10 +120,10 @@ const LoginApp = () => (
     <Fragment>
         <BrowserRouter>
             <Switch>
-                <Route exact path='/landing' component={Landing}/>
-                <Route exact path='/register' component={Register}/>
-                <Route exact path='/login' component={Login}/>
-                <Redirect from='/*' to='/landing'/>
+                <Route exact path={landing} component={Landing}/>
+                <Route exact path={register} component={Register}/>
+                <Route exact path={login} component={Login}/>
+                <Redirect from='/*' to={landing}/>
             </Switch>
         </BrowserRouter>
     </Fragment>
