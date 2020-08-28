@@ -25,7 +25,7 @@ const ListEntry: FunctionComponent<{reportEntry: ApiResponse.ReportEntry}> = ({ 
     return (
         <Fragment>
             <div style={{backgroundColor: 'grey', width: 500}}>
-                <h3>{reportEntry.date}</h3>
+                <h3>{reportEntry.reportDate}</h3>
                 <h3>{reportEntry.department}</h3>
                 <button onClick={handleDelete}>delete</button>
             </div>
