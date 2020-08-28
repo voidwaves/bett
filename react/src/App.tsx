@@ -8,6 +8,7 @@ import Profile from './view/Profile'
 import ReportEntries from './view/ReportEntries'
 import Register from './view/Register'
 import Login from './view/Login'
+import NewReportEntry from './view/NewReportEntry'
 
 // import DatePicker from 'react-datepicker'
 // import "react-datepicker/dist/react-datepicker.css"
@@ -106,6 +107,7 @@ const CoreApp = () => (
                 <Route exact path='/home' component={Home}/>
                 <Route exact path='/profile' component={Profile}/>
                 <Route exact path='/reportentries' component={ReportEntries}/>
+                <Route exact path='/reportentries/new' component={NewReportEntry}/>
                 <Redirect from='/*' to='/home'/>
             </Switch>
         </BrowserRouter>

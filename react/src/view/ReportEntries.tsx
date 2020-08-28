@@ -4,8 +4,9 @@ import DatePicker from 'react-datepicker'
 import { format } from 'ts-date'
 import axios from 'axios'
 import 'react-datepicker/dist/react-datepicker.css'
+import { Link } from 'react-router-dom'
 
-type ReportEntry = {
+export type ReportEntry = {
     id: number
     userId: number
     userName: string
@@ -18,6 +19,31 @@ type ReportEntry = {
 }
 
 const api = 'http://localhost:8081'
+
+const ListEntry: FunctionComponent<{reportEntry: ReportEntry}> = ({ reportEntry }) => {
+    const handleDelete = () => {
+        if(window.confirm('do you really want to delete this report entry?')) {
+            const { id } = reportEntry
+            axios.delete(`${api}/reportentry/${id}`)
+            .then(() => {
+                alert('successfully deleted the report entry')
+            })
+            .catch(() => {
+                alert('could not delete report entry')
+            })
+        }
+    }
+
+    return (
+        <Fragment>
+            <div style={{backgroundColor: 'grey', width: 500}}>
+                <h3>{reportEntry.date}</h3>
+                <h3>{reportEntry.department}</h3>
+                <button onClick={handleDelete}>delete</button>
+            </div>
+        </Fragment>
+    )
+} 
 
 const ReportEntries: FunctionComponent = () => {
     const [startDate, setStartDate] = useState(new Date())
@@ -46,11 +72,11 @@ const ReportEntries: FunctionComponent = () => {
             <DatePicker selected={endDate} onChange={date => setEndDate(date as Date)}/>
             <button onClick={buttonClick}>get report entries</button>
             {reportEntries === undefined ? null : reportEntries.map(reportEntry => (
-            <Fragment>
-                <h3>{reportEntry.id}</h3>
-                <h3>{reportEntry.content}</h3>
-            </Fragment>
+                <ListEntry reportEntry={reportEntry}/>
             ))}
+            <Link to='/reportentries/new'>
+                <button>new entry</button>
+            </Link>
         </Fragment>
     )
 }
