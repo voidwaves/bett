@@ -12,15 +12,19 @@ public class ReportEntryService {
 
     private final ReportEntryRepository reportEntryRepository;
 
-    List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
+    public boolean existsById(Integer id) {
+        return reportEntryRepository.findById(id).isPresent();
+    }
+
+    public List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
         return reportEntryRepository.findAllInDateRangeByUserId(startDate, endDate, userId);
     }
 
-    void save(ReportEntry reportEntry) {
+    public void save(ReportEntry reportEntry) {
         reportEntryRepository.save(reportEntry);
     }
 
-    void deleteById(Integer id) {
+    public void deleteById(Integer id) {
         reportEntryRepository.deleteById(id);
     }
 }

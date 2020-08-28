@@ -54,7 +54,11 @@ public class ReportEntryController {
     @PutMapping
     private ResponseEntity<?> editReportEntry(
             @RequestBody ReportEntry reportEntry,
-            @RequestHeader("Autorization") String authorization) {
+            @RequestHeader("Authorization") String authorization) {
+
+        if (reportEntry.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         reportEntry.setUserId(userService.findUserIdByToken(authorization));
         reportEntryService.save(reportEntry);
@@ -64,6 +68,10 @@ public class ReportEntryController {
 
     @DeleteMapping("/{id}")
     private ResponseEntity<?> deleteReportEntry(@PathVariable("id") Integer id) {
+
+        if (!reportEntryService.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         reportEntryService.deleteById(id);
         log.info("DELETE: deleting report entry with id: {}", id);
