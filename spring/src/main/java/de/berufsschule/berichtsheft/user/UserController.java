@@ -25,6 +25,10 @@ public class UserController {
     @PutMapping
     private ResponseEntity<?> editUser(@RequestBody User user) {
 
+        if (user.getId() == null || !userService.existsById(user.getId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         userService.save(user);
         log.info("PUT: editing user: {}", user.toString());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -32,6 +36,10 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     private ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
+
+        if (!userService.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         userService.deleteById(id);
         log.info("DELETE: deleting user with id: {}", id);

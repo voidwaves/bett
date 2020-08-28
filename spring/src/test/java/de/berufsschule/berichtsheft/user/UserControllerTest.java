@@ -1,7 +1,6 @@
-package de.berufsschule.berichtsheft.reportentry;
+package de.berufsschule.berichtsheft.user;
 
 import de.berufsschule.berichtsheft.jwt.JwtUserDetailsService;
-import de.berufsschule.berichtsheft.reportEntry.ReportEntry;
 import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +17,12 @@ import java.net.URI;
 
 import static de.berufsschule.berichtsheft.TestUtil.TEST_USERNAME;
 import static de.berufsschule.berichtsheft.TestUtil.getRootUrl;
-import static de.berufsschule.berichtsheft.reportentry.ReportEntryTestUtil.createInvalidReportEntry;
-import static de.berufsschule.berichtsheft.reportentry.ReportEntryTestUtil.createValidReportEntry;
+import static de.berufsschule.berichtsheft.user.UserTestUtil.createInvalidUser;
+import static de.berufsschule.berichtsheft.user.UserTestUtil.createValidUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ReportEntryControllerTest {
+public class UserControllerTest {
 
     @LocalServerPort
     private int port;
@@ -52,84 +51,54 @@ public class ReportEntryControllerTest {
     }
 
     @Test
-    public void testGetReportEntriesInDateRangeSuccess() {
+    public void testGetUserSuccess() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
-                .queryParam("start", "2020-07-01")
-                .queryParam("end", "2020-09-01")
+                .path("/user")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + TOKEN);
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+        ResponseEntity<User> response = restTemplate.exchange(uri, HttpMethod.GET, request, User.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getUsername()).isEqualTo(TEST_USERNAME);
     }
 
     @Test
-    public void testGetReportEntriesInDateRangeUnauthorized() {
+    public void testGetUserUnauthorized() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
-                .queryParam("start", "2020-07-01")
-                .queryParam("end", "2020-09-01")
+                .path("/user")
                 .build().toUri();
 
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+        ResponseEntity<User> response = restTemplate.exchange(uri, HttpMethod.GET, null, User.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
-    public void testAddReportEntrySuccess() {
+    public void testEditUserSuccess() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
+                .path("/user")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + TOKEN);
-        HttpEntity<ReportEntry> request = new HttpEntity<>(createValidReportEntry(false), headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
-
-    @Test
-    public void testAddReportEntryConflict() {
-        URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
-                .build().toUri();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + TOKEN);
-        HttpEntity<ReportEntry> request = new HttpEntity<>(createInvalidReportEntry(false), headers);
-
-        ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.POST, request, String.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
-    }
-
-    @Test
-    public void testEditReportEntrySuccess() {
-        URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
-                .build().toUri();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + TOKEN);
-        HttpEntity<ReportEntry> request = new HttpEntity<>(createValidReportEntry(true), headers);
+        HttpEntity<User> request = new HttpEntity<>(createValidUser(true), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
-    public void testEditReportEntryConflict() {
+    public void testEditUserConflict() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry")
+                .path("/user")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + TOKEN);
-        HttpEntity<ReportEntry> request = new HttpEntity<>(createInvalidReportEntry(true), headers);
+        HttpEntity<User> request = new HttpEntity<>(createInvalidUser(true), headers);
 
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.PUT, request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
@@ -138,7 +107,7 @@ public class ReportEntryControllerTest {
     @Test
     public void testDeleteReportEntrySuccess() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry/2")
+                .path("/user/2")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
@@ -152,7 +121,7 @@ public class ReportEntryControllerTest {
     @Test
     public void testDeleteReportEntryError() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
-                .path("/reportentry/6")
+                .path("/user/6")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();

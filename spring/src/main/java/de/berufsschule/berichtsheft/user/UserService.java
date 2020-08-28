@@ -11,6 +11,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenUtil tokenUtil;
 
+    public boolean existsById(Integer id) {
+        return userRepository.findById(id).isPresent();
+    }
+
     public User findUserByToken(String authorization) {
         String token = tokenUtil.removeBearerStringFromToken(authorization);
         String username = tokenUtil.getUsernameFromToken(token);

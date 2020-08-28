@@ -2,7 +2,6 @@ package de.berufsschule.berichtsheft.jwt;
 
 import de.berufsschule.berichtsheft.user.User;
 import de.berufsschule.berichtsheft.user.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

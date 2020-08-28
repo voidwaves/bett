@@ -10,7 +10,7 @@ public class ReportEntryTestUtil {
         ReportEntry reportEntry = new ReportEntry();
         if (withId) reportEntry.setId(1);
         reportEntry.setContent("asd");
-        reportEntry.setDate(LocalDate.of(2020, 7, 12));
+        reportEntry.setReportDate(LocalDate.of(2020, 7, 12));
         reportEntry.setDepartment("asdasd");
         reportEntry.setWorkingHours(7.8);
         reportEntry.setUserId(1);
@@ -21,7 +21,7 @@ public class ReportEntryTestUtil {
         ReportEntry reportEntry = new ReportEntry();
         if (withId) reportEntry.setId(1);
         reportEntry.setContent("asd");
-        reportEntry.setDate(LocalDate.of(2020, 8, 22));
+        reportEntry.setReportDate(LocalDate.of(2020, 8, 22));
         reportEntry.setDepartment("asdasd");
         reportEntry.setWorkingHours(7.8);
         reportEntry.setUserId(1);

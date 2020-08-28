@@ -1,7 +1,6 @@
 package de.berufsschule.berichtsheft.reportEntry;
 
 import de.berufsschule.berichtsheft.user.UserService;
-import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -56,7 +55,7 @@ public class ReportEntryController {
             @RequestBody ReportEntry reportEntry,
             @RequestHeader("Authorization") String authorization) {
 
-        if (reportEntry.getId() == null) {
+        if (reportEntry.getId() == null || !reportEntryService.existsById(reportEntry.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
