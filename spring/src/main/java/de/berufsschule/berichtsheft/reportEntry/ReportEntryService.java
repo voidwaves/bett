@@ -12,7 +12,15 @@ public class ReportEntryService {
 
     private final ReportEntryRepository reportEntryRepository;
 
-    public List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
+    List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
         return reportEntryRepository.findAllInDateRangeByUserId(startDate, endDate, userId);
+    }
+
+    void save(ReportEntry reportEntry) {
+        reportEntryRepository.save(reportEntry);
+    }
+
+    void deleteById(Integer id) {
+        reportEntryRepository.deleteById(id);
     }
 }

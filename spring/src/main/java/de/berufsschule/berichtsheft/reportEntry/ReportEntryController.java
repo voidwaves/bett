@@ -1,9 +1,9 @@
 package de.berufsschule.berichtsheft.reportEntry;
 
-import de.berufsschule.berichtsheft.user.User;
 import de.berufsschule.berichtsheft.user.UserService;
 import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ import static de.berufsschule.berichtsheft.util.DateUtil.parseToLocalDate;
 @RequiredArgsConstructor
 @RequestMapping("/reportentry")
 @CrossOrigin
+@Slf4j
 public class ReportEntryController {
 
     private final ReportEntryService reportEntryService;
     private final UserService userService;
-    private final JwtTokenUtil tokenUtil;
 
     @GetMapping
     private ResponseEntity<?> getReportEntryListInDateRange(
@@ -32,13 +32,41 @@ public class ReportEntryController {
         LocalDate startDate = parseToLocalDate(start);
         LocalDate endDate = parseToLocalDate(end);
 
-        String token = authorization.substring(7);
-        String username = tokenUtil.getUsernameFromToken(token);
-        User user = userService.findByUsername(username);
+        Integer id = userService.findUserIdByToken(authorization);
 
         List<ReportEntry> reportEntries = reportEntryService
-                .findAllInDateRangeByUserId(startDate, endDate, user.getId());
+                .findAllInDateRangeByUserId(startDate, endDate, id);
 
         return new ResponseEntity<>(reportEntries, HttpStatus.OK);
+    }
+
+    @PostMapping
+    private ResponseEntity<?> addReportEntry(
+            @RequestBody ReportEntry reportEntry,
+            @RequestHeader("Authorization") String authorization) {
+
+        reportEntry.setUserId(userService.findUserIdByToken(authorization));
+        reportEntryService.save(reportEntry);
+        log.info("POST: adding report entry: {}", reportEntry.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    private ResponseEntity<?> editReportEntry(
+            @RequestBody ReportEntry reportEntry,
+            @RequestHeader("Autorization") String authorization) {
+
+        reportEntry.setUserId(userService.findUserIdByToken(authorization));
+        reportEntryService.save(reportEntry);
+        log.info("PUT: editing report entry: {}", reportEntry.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<?> deleteReportEntry(@PathVariable("id") Integer id) {
+
+        reportEntryService.deleteById(id);
+        log.info("DELETE: deleting report entry with id: {}", id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

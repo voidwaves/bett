@@ -3,6 +3,7 @@ package de.berufsschule.berichtsheft.jwt;
 import de.berufsschule.berichtsheft.user.User;
 import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,25 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
+@Slf4j
 public class JwtAuthenticationController {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil tokenUtil;
     private final JwtUserDetailsService userDetailsService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
+    private ResponseEntity<?> authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
 
         authenticate(jwtRequest.getUsername(), jwtRequest.getPassword());
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+        String token = tokenUtil.generateToken(userDetails);
+        log.info("POST: logged in user: {}", jwtRequest.getUsername());
         return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        return new ResponseEntity<>(userDetailsService.save(user), HttpStatus.OK);
+    private ResponseEntity<?> register(@RequestBody User user) {
+
+        userDetailsService.save(user);
+        log.info("POST: registered user: {}", user.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private void authenticate(String username, String password) throws Exception {

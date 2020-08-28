@@ -1,7 +1,7 @@
 package de.berufsschule.berichtsheft.user;
 
-import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,18 +10,31 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @CrossOrigin
+@Slf4j
 public class UserController {
 
     private final UserService userService;
-    private final JwtTokenUtil tokenUtil;
 
     @GetMapping
     private ResponseEntity<?> getUser(@RequestHeader("Authorization") String authorization) {
 
-        String token = authorization.substring(7);
-        String username = tokenUtil.getUsernameFromToken(token);
-        User user = userService.findByUsername(username);
-
+        User user = userService.findUserByToken(authorization);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping
+    private ResponseEntity<?> editUser(@RequestBody User user) {
+
+        userService.save(user);
+        log.info("PUT: editing user: {}", user.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
+
+        userService.deleteById(id);
+        log.info("DELETE: deleting user with id: {}", id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
