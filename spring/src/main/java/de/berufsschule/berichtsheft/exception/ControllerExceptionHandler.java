@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,6 +20,13 @@ public class ControllerExceptionHandler {
 
         log.error("ERROR: {}: {}", request.getRequestURI(), e.getMessage());
         return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    private ResponseEntity<?> handleException(BadCredentialsException e, HttpServletRequest request) {
+
+        log.error("ERROR: {}: {}", request.getRequestURI(), e.getMessage());
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

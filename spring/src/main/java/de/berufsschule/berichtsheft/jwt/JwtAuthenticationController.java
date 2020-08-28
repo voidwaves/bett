@@ -44,13 +44,7 @@ public class JwtAuthenticationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
+    private void authenticate(String username, String password) throws BadCredentialsException {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }
