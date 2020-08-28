@@ -3,6 +3,7 @@ const apiLink = 'http://localhost:8081'
 export const links = {
     api: {
         reportEntries: `${apiLink}/reportentry`,
+        reportEntryDelete: (id: number) => `${apiLink}/reportentry/${id}`,
         profile: `${apiLink}/profile`,
         register: `${apiLink}/register`,
         login: `${apiLink}/authenticate`
