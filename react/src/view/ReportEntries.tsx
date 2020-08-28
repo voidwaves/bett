@@ -1,30 +1,18 @@
 
 import React, { FunctionComponent, Fragment, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import { format } from 'ts-date'
 import axios from 'axios'
 import 'react-datepicker/dist/react-datepicker.css'
 import { Link } from 'react-router-dom'
+import { ApiResponse, ApiRequest } from '../Types'
+import { links } from '../Links'
+import { dateToString } from '../utils'
 
-export type ReportEntry = {
-    id: number
-    userId: number
-    userName: string
-    firstName: string
-    lastName: string
-    content: string
-    date: Date
-    workingHours: number
-    department: string
-}
-
-const api = 'http://localhost:8081'
-
-const ListEntry: FunctionComponent<{reportEntry: ReportEntry}> = ({ reportEntry }) => {
+const ListEntry: FunctionComponent<{reportEntry: ApiResponse.ReportEntry}> = ({ reportEntry }) => {
     const handleDelete = () => {
         if(window.confirm('do you really want to delete this report entry?')) {
             const { id } = reportEntry
-            axios.delete(`${api}/reportentry/${id}`)
+            axios.delete(links.api.reportEntryDelete(id))
             .then(() => {
                 alert('successfully deleted the report entry')
             })
@@ -48,18 +36,16 @@ const ListEntry: FunctionComponent<{reportEntry: ReportEntry}> = ({ reportEntry 
 const ReportEntries: FunctionComponent = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
-    const [reportEntries, setReportEntries] = useState<ReportEntry[]>([])
+    const [reportEntries, setReportEntries] = useState<ApiResponse.ReportEntry[]>([])
 
     const buttonClick = () => {
-        const start = format(startDate, 'YYYY-MM-DD')
-        const end = format(endDate, 'YYYY-MM-DD')
+        const start = dateToString(startDate)
+        const end = dateToString(endDate)
+        const params: ApiRequest.ReportEntry.Params = {
+            params: {start, end}
+        }
 
-        axios.get<ReportEntry[]>(`${api}/reportentry`, {
-            params: {
-                start: start,
-                end: end
-            }
-        })
+        axios.get<ApiResponse.ReportEntry[]>(links.api.reportEntries, params)
         .then(reportEntries => setReportEntries(reportEntries.data))
         .catch(error => alert(error))
     }

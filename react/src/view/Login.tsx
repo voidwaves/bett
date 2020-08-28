@@ -2,6 +2,8 @@
 import React, { FunctionComponent, Fragment, useState } from 'react'
 import axios from 'axios'
 import { useLogin } from '../AppState'
+import { links } from '../Links'
+import { ApiRequest } from '../Types'
 
 const Login: FunctionComponent = () => {
     const [userName, setUserName] = useState('')
@@ -9,19 +11,17 @@ const Login: FunctionComponent = () => {
     const login = useLogin()
 
     const handleSubmit = () => {
-        const body = {
+        const body: ApiRequest.Login = {
             username: userName,
             password: password
         }
 
-        const api = 'http://localhost:8081'
-
-        axios.post<{token: string}>(`${api}/authenticate`, body)
+        axios.post<{token: string}>(links.api.login, body)
         .then(response => {
             login(response.data.token)
         })
         .catch(() => {
-            setPassword('deleted....')
+            setPassword('')
         })
     }
 
