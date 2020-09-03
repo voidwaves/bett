@@ -1,10 +1,11 @@
-import ReportEntries from "./view/ReportEntries"
+import ReportEntries from "./view/EntryList"
 
 type Modify<T, R> = Omit<T, keyof R> & R
 
 export namespace App {
     export type ReportEntry = Modify<ApiResponse.ReportEntry, {
-        reportDate: Date
+        reportDate: Date,
+        exists: boolean
     }>
 }
 

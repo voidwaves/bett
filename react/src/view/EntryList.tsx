@@ -6,32 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Link } from 'react-router-dom'
 import { ApiResponse, ApiRequest, App } from '../Types'
 import { links } from '../Links'
-import { dateToString, dateRange, stringToDate } from '../utils'
-
-const ListEntry: FunctionComponent<{reportEntry: App.ReportEntry}> = ({ reportEntry }) => {
-    const handleDelete = () => {
-        if(window.confirm('do you really want to delete this report entry?')) {
-            const { id } = reportEntry
-            axios.delete(links.api.reportEntryDelete(id))
-            .then(() => {
-                alert('successfully deleted the report entry')
-            })
-            .catch(() => {
-                alert('could not delete report entry')
-            })
-        }
-    }
-
-    return (
-        <Fragment>
-            <div style={{backgroundColor: 'grey', width: 500}}>
-                <h3>{dateToString(reportEntry.reportDate)}</h3>
-                <h3>{reportEntry.content}</h3>
-                <button onClick={handleDelete}>delete</button>
-            </div>
-        </Fragment>
-    )
-} 
+import { dateToString, dateRange, stringToDate, isLater, isEarlier } from '../utils'
+import EntryListItem from './EntryListItem'
 
 const ReportEntries: FunctionComponent = () => {
     const [startDate, setStartDate] = useState(new Date())
@@ -46,7 +22,7 @@ const ReportEntries: FunctionComponent = () => {
         .catch(() => alert('Could not get user data from api!'))
     }, [])
 
-    useEffect(() => {
+    const getReportEntries = () => {
         if(user !== null) {
             const start = user.beginOfApprenticeship
             const end = dateToString(new Date())
@@ -57,18 +33,20 @@ const ReportEntries: FunctionComponent = () => {
             .then(reportEntries => setReportEntries(reportEntries.data))
             .catch(() => alert('Could not get report entries from api!'))
         }
+    }
+
+    useEffect(() => {
+        getReportEntries()
     }, [user])
 
     useEffect(() => {
         if(reportEntries !== null) {
             const allDates = dateRange(startDate, endDate)
             setFullEntryList(allDates.map(date => {
-                const matchingEntry = reportEntries.find(entry => {
-                    console.log(entry.reportDate === dateToString(date), entry.reportDate, dateToString(date), )
-                    return entry.reportDate === dateToString(date)
-                })
+                const matchingEntry = reportEntries.find(entry => entry.reportDate === dateToString(date))
                 const emptyEntry: App.ReportEntry = {
                     id: -1,
+                    exists: false,
                     user: user as ApiResponse.User,
                     reportDate: date,
                     content: '',
@@ -77,24 +55,38 @@ const ReportEntries: FunctionComponent = () => {
                 }
                 return matchingEntry === undefined ? emptyEntry : {
                     ...matchingEntry,
+                    exists: true,
                     reportDate: stringToDate(matchingEntry.reportDate)
                 }
             }))
         }
     }, [reportEntries, startDate, endDate])
 
+    const changeStartDate = (date: Date) => {
+        if(!isLater(startDate, endDate)) {
+            setStartDate(date)
+        } else {
+            alert('start date can not be later than end date')
+        }
+    }
+
+    const changeEndDate = (date: Date) => {
+        if(!isEarlier(endDate, startDate)) {
+            setEndDate(date)
+        } else {
+            alert('end date can not be earlier than start date')
+        }
+    }
+
     return ( 
         <Fragment>
             <h2>Select a start date:</h2>
-            <DatePicker selected={startDate} onChange={date => setStartDate(date as Date)}/>
+            <DatePicker selected={startDate} onChange={changeStartDate}/>
             <h2>Select an end date:</h2>
-            <DatePicker selected={endDate} onChange={date => setEndDate(date as Date)}/>
+            <DatePicker selected={endDate} onChange={changeEndDate}/>
             {fullEntryList === null ? null : fullEntryList.map(reportEntry => (
-                <ListEntry reportEntry={reportEntry}/>
+                <EntryListItem key={reportEntry.id} reportEntry={reportEntry} reload={getReportEntries}/>
             ))}
-            <Link to='/reportentries/new'>
-                <button>new entry</button>
-            </Link>
         </Fragment>
     )
 }
