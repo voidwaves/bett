@@ -21,5 +21,5 @@ CREATE TABLE IF NOT EXISTS report_entry_table (
 
     CONSTRAINT UC_report_entry UNIQUE (user_id, report_date),
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES user_table(id)
+    FOREIGN KEY (user_id) REFERENCES user_table(id) ON DELETE CASCADE
 );

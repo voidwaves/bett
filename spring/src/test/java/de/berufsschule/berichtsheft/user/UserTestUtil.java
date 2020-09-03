@@ -6,7 +6,7 @@ import static de.berufsschule.berichtsheft.TestUtil.TEST_USERNAME;
 
 public class UserTestUtil {
 
-    static User createValidUser(boolean withId) {
+    public static User createValidUser(boolean withId) {
         User user = new User();
         if (withId) user.setId(1);
         user.setFirstName("asd");

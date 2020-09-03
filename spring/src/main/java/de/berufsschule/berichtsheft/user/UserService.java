@@ -16,15 +16,18 @@ public class UserService {
     }
 
     public User findUserByToken(String authorization) {
-        String token = tokenUtil.removeBearerStringFromToken(authorization);
-        String username = tokenUtil.getUsernameFromToken(token);
+        String username = findUsernameByToken(authorization);
         return userRepository.findByUsername(username);
     }
 
     public Integer findUserIdByToken(String authorization) {
-        String token = tokenUtil.removeBearerStringFromToken(authorization);
-        String username = tokenUtil.getUsernameFromToken(token);
+        String username = findUsernameByToken(authorization);
         return userRepository.findIdByUsername(username);
+    }
+
+    private String findUsernameByToken(String authorization) {
+        String token = tokenUtil.removeBearerStringFromToken(authorization);
+        return tokenUtil.getUsernameFromToken(token);
     }
 
     void save(User user) {
