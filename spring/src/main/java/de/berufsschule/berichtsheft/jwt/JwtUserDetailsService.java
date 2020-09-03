@@ -3,23 +3,18 @@ package de.berufsschule.berichtsheft.jwt;
 import de.berufsschule.berichtsheft.user.User;
 import de.berufsschule.berichtsheft.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,10 +24,5 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), new ArrayList<>());
-    }
-
-    public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
     }
 }

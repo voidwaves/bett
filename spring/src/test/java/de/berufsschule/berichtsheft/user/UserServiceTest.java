@@ -4,6 +4,7 @@ import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Optional;
 
@@ -17,17 +18,19 @@ public class UserServiceTest {
     private UserService userService;
     private UserRepository userRepository;
     private JwtTokenUtil tokenUtil;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @BeforeEach
     public void setup() {
         userRepository = mock(UserRepository.class);
         tokenUtil = mock(JwtTokenUtil.class);
-        userService = new UserService(userRepository, tokenUtil);
+        bCryptPasswordEncoder = mock(BCryptPasswordEncoder.class);
+        userService = new UserService(userRepository, tokenUtil, bCryptPasswordEncoder);
     }
 
     @AfterEach
     public void after() {
-        reset(userRepository, tokenUtil);
+        reset(userRepository, bCryptPasswordEncoder, tokenUtil);
     }
 
     @Test
@@ -54,7 +57,7 @@ public class UserServiceTest {
         verify(tokenUtil).removeBearerStringFromToken(TEST_AUTHORIZATION);
         verify(tokenUtil).getUsernameFromToken(TEST_TOKEN);
         verify(userRepository).findByUsername(TEST_USERNAME);
-        verifyNoMoreInteractions(tokenUtil, userRepository);
+        verifyNoMoreInteractions(userRepository, bCryptPasswordEncoder, tokenUtil);
     }
 
     @Test
@@ -68,21 +71,23 @@ public class UserServiceTest {
         verify(tokenUtil).removeBearerStringFromToken(TEST_AUTHORIZATION);
         verify(tokenUtil).getUsernameFromToken(TEST_TOKEN);
         verify(userRepository).findIdByUsername(TEST_USERNAME);
-        verifyNoMoreInteractions(tokenUtil, userRepository);
+        verifyNoMoreInteractions(userRepository, bCryptPasswordEncoder, tokenUtil);
     }
 
     @Test
     public void testSave() {
         User user = createValidUser(false);
+        when(bCryptPasswordEncoder.encode("asd")).thenReturn(TEST_ENCODED_PASSWORD);
         userService.save(user);
+        verify(bCryptPasswordEncoder).encode("asd");
         verify(userRepository).save(user);
-        verifyNoMoreInteractions(userRepository);
+        verifyNoMoreInteractions(userRepository, bCryptPasswordEncoder, tokenUtil);
     }
 
     @Test
     public void testDeleteById() {
         userService.deleteById(1);
         verify(userRepository).deleteById(1);
-        verifyNoMoreInteractions(userRepository);
+        verifyNoMoreInteractions(userRepository, bCryptPasswordEncoder, tokenUtil);
     }
 }

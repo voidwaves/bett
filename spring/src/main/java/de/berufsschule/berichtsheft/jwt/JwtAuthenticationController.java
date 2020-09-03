@@ -1,6 +1,7 @@
 package de.berufsschule.berichtsheft.jwt;
 
 import de.berufsschule.berichtsheft.user.User;
+import de.berufsschule.berichtsheft.user.UserService;
 import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class JwtAuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil tokenUtil;
     private final JwtUserDetailsService userDetailsService;
+    private final UserService userService;
 
     @PostMapping("/authenticate")
     private ResponseEntity<?> authenticateUser(@RequestBody JwtRequest jwtRequest) {
@@ -38,7 +40,7 @@ public class JwtAuthenticationController {
     @PostMapping("/register")
     private ResponseEntity<?> registerUser(@RequestBody User user) {
 
-        userDetailsService.save(user);
+        userService.save(user);
         log.info("POST: registered user: {}", user.toString());
         return new ResponseEntity<>(HttpStatus.OK);
     }

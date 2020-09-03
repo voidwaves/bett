@@ -2,6 +2,7 @@ package de.berufsschule.berichtsheft.user;
 
 import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +11,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtTokenUtil tokenUtil;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public boolean existsById(Integer id) {
         return userRepository.findById(id).isPresent();
@@ -30,7 +32,8 @@ public class UserService {
         return tokenUtil.getUsernameFromToken(token);
     }
 
-    void save(User user) {
+    public void save(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
