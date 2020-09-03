@@ -58,7 +58,8 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
             .catch(() => {
                 alert('could not save existing report entry')
             })
-        } else {
+        } 
+        else {
             const body: ApiRequest.ReportEntry.Post = {
                 content, workingHours, department,
                 reportDate: dateToString(reportEntry.reportDate)

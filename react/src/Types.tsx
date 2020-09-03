@@ -7,6 +7,10 @@ export namespace App {
         reportDate: Date,
         exists: boolean
     }>
+
+    export type User = Modify<ApiResponse.User, {
+        beginOfApprenticeship: Date
+    }>
 }
 
 export namespace ApiResponse {
@@ -21,7 +25,7 @@ export namespace ApiResponse {
     
     export type User = {
         id: number
-        fistName: string
+        firstName: string
         lastName: string
         beginOfApprenticeship: string
         label: string
@@ -53,7 +57,7 @@ export namespace ApiRequest {
             id: number
         }
         export type Post = {
-            fistName: string
+            firstName: string
             lastName: string
             beginOfApprenticeship: string
             label: string

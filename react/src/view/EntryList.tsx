@@ -78,6 +78,7 @@ const ReportEntries: FunctionComponent = () => {
         }
     }
 
+    // random key prop to force rerender
     return ( 
         <Fragment>
             <h2>Select a start date:</h2>
@@ -85,7 +86,7 @@ const ReportEntries: FunctionComponent = () => {
             <h2>Select an end date:</h2>
             <DatePicker selected={endDate} onChange={changeEndDate}/>
             {fullEntryList === null ? null : fullEntryList.map(reportEntry => (
-                <EntryListItem key={reportEntry.id} reportEntry={reportEntry} reload={getReportEntries}/>
+                <EntryListItem key={Math.random()} reportEntry={reportEntry} reload={getReportEntries}/>
             ))}
         </Fragment>
     )

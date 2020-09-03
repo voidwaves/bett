@@ -5,6 +5,7 @@ export const links = {
         reportEntries: `${apiLink}/reportentry`,
         reportEntryDelete: (id: number) => `${apiLink}/reportentry/${id}`,
         profile: `${apiLink}/user`,
+        profileDelete: (id: number) => `${apiLink}/user/${id}`,
         register: `${apiLink}/register`,
         login: `${apiLink}/authenticate`
     },
