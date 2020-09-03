@@ -1,9 +1,11 @@
 import ReportEntries from "./view/ReportEntries"
 
+type Modify<T, R> = Omit<T, keyof R> & R
+
 export namespace App {
-    export type ReportEntry = ApiResponse.ReportEntry & {
-        beginOfApprenticeship: Date
-    }
+    export type ReportEntry = Modify<ApiResponse.ReportEntry, {
+        reportDate: Date
+    }>
 }
 
 export namespace ApiResponse {
