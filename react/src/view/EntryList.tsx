@@ -6,25 +6,29 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { Link } from 'react-router-dom'
 import { ApiResponse, ApiRequest, App } from '../Types'
 import { links } from '../Links'
-import { dateToString, dateRange, stringToDate, isLater, isEarlier } from '../utils'
+import { dateToString, dateRange, stringToDate, isLater, isEarlier, weekDateRange, isWeekDay } from '../utils'
 import EntryListItem from './EntryListItem'
 
 const ReportEntries: FunctionComponent = () => {
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date())
+    const [monday, friday] = weekDateRange(stringToDate('2020-08-26'))
+    const [startDate, setStartDate] = useState(monday)
+    const [endDate, setEndDate] = useState(friday)
     const [reportEntries, setReportEntries] = useState<ApiResponse.ReportEntry[] | null>(null)
     const [fullEntryList, setFullEntryList] = useState<App.ReportEntry[] | null>(null)
-    const [user, setUser] = useState<ApiResponse.User | null>(null)
+    const [user, setUser] = useState<App.User | null>(null)
 
     useEffect(() => {
         axios.get<ApiResponse.User>(links.api.profile)
-        .then(response => setUser(response.data))
+        .then(response => setUser({
+            ...response.data,
+            beginOfApprenticeship: stringToDate(response.data.beginOfApprenticeship)
+        }))
         .catch(() => alert('Could not get user data from api!'))
-    }, [])
+    }, []);
 
     const getReportEntries = () => {
         if(user !== null) {
-            const start = user.beginOfApprenticeship
+            const start = dateToString(user.beginOfApprenticeship)
             const end = dateToString(new Date())
             const params: ApiRequest.ReportEntry.Params = {
                 params: {start, end}
@@ -40,14 +44,17 @@ const ReportEntries: FunctionComponent = () => {
     }, [user])
 
     useEffect(() => {
-        if(reportEntries !== null) {
+        if(reportEntries !== null && user !== null) {
             const allDates = dateRange(startDate, endDate)
             setFullEntryList(allDates.map(date => {
                 const matchingEntry = reportEntries.find(entry => entry.reportDate === dateToString(date))
                 const emptyEntry: App.ReportEntry = {
                     id: -1,
                     exists: false,
-                    user: user as ApiResponse.User,
+                    user: {
+                        ...user,
+                        beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
+                    },
                     reportDate: date,
                     content: '',
                     workingHours: 0,
@@ -62,29 +69,31 @@ const ReportEntries: FunctionComponent = () => {
         }
     }, [reportEntries, startDate, endDate])
 
-    const changeStartDate = (date: Date) => {
-        if(!isLater(startDate, endDate)) {
-            setStartDate(date)
-        } else {
-            alert('start date can not be later than end date')
-        }
-    }
-
-    const changeEndDate = (date: Date) => {
-        if(!isEarlier(endDate, startDate)) {
-            setEndDate(date)
-        } else {
-            alert('end date can not be earlier than start date')
-        }
+    const onDateChange = (date: Date) => {
+        const [newStartDate, newEndDate] = weekDateRange(date)
+        setStartDate(newStartDate)
+        setEndDate(newEndDate)
     }
 
     // random key prop to force rerender
-    return ( 
+    return user === null || reportEntries === null ? null : ( 
         <Fragment>
-            <h2>Select a start date:</h2>
-            <DatePicker selected={startDate} onChange={changeStartDate}/>
-            <h2>Select an end date:</h2>
-            <DatePicker selected={endDate} onChange={changeEndDate}/>
+            <h2>Select a week</h2>
+            <DatePicker
+            selected={startDate} 
+            onChange={onDateChange}
+            onWeekSelect={onDateChange}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={user.beginOfApprenticeship}
+            maxDate={new Date()}
+            filterDate={isWeekDay}
+            shouldCloseOnSelect={false}
+            highlightDates={reportEntries.map(entry => stringToDate(entry.reportDate))}
+            showWeekNumbers
+            showMonthDropdown
+            showYearDropdown
+            />
             {fullEntryList === null ? null : fullEntryList.map(reportEntry => (
                 <EntryListItem key={Math.random()} reportEntry={reportEntry} reload={getReportEntries}/>
             ))}

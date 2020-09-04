@@ -1,5 +1,5 @@
 
-import { format, parse } from 'ts-date'
+import { format, parse, addDate } from 'ts-date'
 import { ChangeEvent, Dispatch } from 'react'
 
 const pattern = 'YYYY-MM-DD'
@@ -35,10 +35,24 @@ export const isInRange = (target: Date, start: Date, end: Date) => {
 }
 
 export const dateRange = (start: Date, end: Date): Date[] => {
-    // console.log(dateToString(start))
-    // console.log('is equal?', isEqual(start, end))
+    if(isLater(start, end)) {
+        throw new Error('dateRange: start can not be later than end!')
+    }
     const newStart = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1)
     return isEqual(start, end) ? [end] : [start, ...dateRange(newStart, end)]
+}
+
+export const weekDateRange = (date: Date): [Date, Date] => {
+    const weekstart = date.getDate() - date.getDay() + 1
+    const monday = new Date(date.setDate(weekstart))
+    const friday = addDate(monday, 4)
+    console.log(dateToString(monday))
+    console.log(dateToString(friday))
+    return [monday, friday]
+}
+
+export const isWeekDay = (date: Date): boolean => {
+    return ![0, 6].includes(date.getDay())
 }
 
 export const fromEvent = function (setter: Dispatch<string>) {
