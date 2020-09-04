@@ -72,6 +72,6 @@ export const useLogout = () => {
   return () => {
     removeToken()
     removeTokenFromHeader(interceptor)
-    setLoginState({isAuthorized: false, interceptor: 0})
+    setLoginState({isAuthorized: false, interceptor: -1})
   }
 }

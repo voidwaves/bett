@@ -1,12 +1,13 @@
 
-import React, { FunctionComponent, Fragment, useState, SetStateAction, ChangeEvent } from 'react'
+import React, { FunctionComponent, Fragment, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import { format } from 'ts-date'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import { ApiRequest } from '../Types'
+import { dateToString, fromEvent } from '../utils'
+import { links } from '../Links'
 
 const Register: FunctionComponent = () => {
-    // username, password, firstname, lastname, label, startofapprenticeship
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [firstName, setFirstName] = useState('')
@@ -15,20 +16,14 @@ const Register: FunctionComponent = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [redirect, setRedirect] = useState(false)
 
-    const fromEvent = function <Type>(setter: SetStateAction<any>) {
-        return (event: ChangeEvent<HTMLInputElement>) => setter(event.target.value)
-    }
-
     const handleSubmit = () => {
-        const body = {
+        const body: ApiRequest.Register = {
             username: userName,
-            beginOfApprenticeship: format(startDate, 'YYYY-MM-DD'),
+            beginOfApprenticeship: dateToString(startDate),
             password, firstName, lastName, label
         }
 
-        const api = 'http://localhost:8081'
-
-        axios.post<{token: string}>(`${api}/register`, body)
+        axios.post<{token: string}>(links.api.register, body)
         .then(() => {
             setRedirect(true)
         })
