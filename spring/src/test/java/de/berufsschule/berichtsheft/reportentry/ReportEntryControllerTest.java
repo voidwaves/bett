@@ -52,11 +52,9 @@ public class ReportEntryControllerTest {
     }
 
     @Test
-    public void testGetReportEntriesInDateRangeSuccess() {
+    public void testGetReportEntriesSuccess() {
         URI uri = UriComponentsBuilder.fromHttpUrl(getRootUrl(port))
                 .path("/reportentry")
-                .queryParam("start", "2020-07-01")
-                .queryParam("end", "2020-09-01")
                 .build().toUri();
 
         HttpHeaders headers = new HttpHeaders();

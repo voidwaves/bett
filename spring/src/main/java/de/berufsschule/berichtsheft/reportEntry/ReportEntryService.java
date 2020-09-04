@@ -16,8 +16,8 @@ public class ReportEntryService {
         return reportEntryRepository.findById(id).isPresent();
     }
 
-    public List<ReportEntry> findAllInDateRangeByUserId(LocalDate startDate, LocalDate endDate, Integer userId) {
-        return reportEntryRepository.findAllInDateRangeByUserId(startDate, endDate, userId);
+    public List<ReportEntry> findByUserId(Integer userId) {
+        return reportEntryRepository.findByUserId(userId);
     }
 
     public void save(ReportEntry reportEntry) {

@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-
-import static de.berufsschule.berichtsheft.util.DateUtil.parseToLocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,17 +21,11 @@ public class ReportEntryController {
 
     @GetMapping
     private ResponseEntity<?> getReportEntryListInDateRange(
-            @RequestHeader("Authorization") String authorization,
-            @RequestParam("start") String start,
-            @RequestParam("end") String end) {
-
-        LocalDate startDate = parseToLocalDate(start);
-        LocalDate endDate = parseToLocalDate(end);
+            @RequestHeader("Authorization") String authorization) {
 
         Integer id = userService.findUserIdByToken(authorization);
 
-        List<ReportEntry> reportEntries = reportEntryService
-                .findAllInDateRangeByUserId(startDate, endDate, id);
+        List<ReportEntry> reportEntries = reportEntryService.findByUserId(id);
 
         return new ResponseEntity<>(reportEntries, HttpStatus.OK);
     }

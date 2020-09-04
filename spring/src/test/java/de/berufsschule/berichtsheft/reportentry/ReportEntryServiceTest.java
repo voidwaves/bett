@@ -53,13 +53,13 @@ public class ReportEntryServiceTest {
     @Test
     public void testFindAllInDateRangeByUserId() {
         ReportEntry reportEntry = createValidReportEntry(true);
-        when(reportEntryRepository.findAllInDateRangeByUserId(TEST_DATE_1, TEST_DATE_2, TEST_ID))
+        when(reportEntryRepository.findByUserId(TEST_ID))
                 .thenReturn(Collections.singletonList(reportEntry));
-        final List<ReportEntry> result = reportEntryService.findAllInDateRangeByUserId(TEST_DATE_1, TEST_DATE_2, TEST_ID);
+        final List<ReportEntry> result = reportEntryService.findByUserId(TEST_ID);
         assertThat(result).isNotNull();
         assertThat(result.get(0)).isNotNull();
         assertThat(result.get(0).getUserId()).isEqualTo(reportEntry.getUserId());
-        verify(reportEntryRepository).findAllInDateRangeByUserId(TEST_DATE_1, TEST_DATE_2, TEST_ID);
+        verify(reportEntryRepository).findByUserId(TEST_ID);
         verifyNoMoreInteractions(reportEntryRepository);
     }
 
