@@ -46,8 +46,6 @@ export const weekDateRange = (date: Date): [Date, Date] => {
     const weekstart = date.getDate() - date.getDay() + 1
     const monday = new Date(date.setDate(weekstart))
     const friday = addDate(monday, 4)
-    console.log(dateToString(monday))
-    console.log(dateToString(friday))
     return [monday, friday]
 }
 

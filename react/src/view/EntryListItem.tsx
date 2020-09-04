@@ -1,12 +1,10 @@
 
-import React, { FunctionComponent, Fragment, useState, useEffect } from 'react'
+import React, { FunctionComponent, Fragment, useState } from 'react'
 import axios from 'axios'
 import 'react-datepicker/dist/react-datepicker.css'
 import {  App, ApiRequest } from '../Types'
 import { links } from '../Links'
 import { dateToString, fromEvent } from '../utils'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 
 type EntryListItemProps = {
     reportEntry: App.ReportEntry

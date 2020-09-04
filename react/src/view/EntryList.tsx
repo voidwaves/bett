@@ -3,14 +3,13 @@ import React, { FunctionComponent, Fragment, useState, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import axios from 'axios'
 import 'react-datepicker/dist/react-datepicker.css'
-import { Link } from 'react-router-dom'
-import { ApiResponse, ApiRequest, App } from '../Types'
+import { ApiResponse, App } from '../Types'
 import { links } from '../Links'
-import { dateToString, dateRange, stringToDate, isLater, isEarlier, weekDateRange, isWeekDay } from '../utils'
+import { dateToString, dateRange, stringToDate, weekDateRange, isWeekDay } from '../utils'
 import EntryListItem from './EntryListItem'
 
 const ReportEntries: FunctionComponent = () => {
-    const [monday, friday] = weekDateRange(stringToDate('2020-08-26'))
+    const [monday, friday] = weekDateRange(new Date())
     const [startDate, setStartDate] = useState(monday)
     const [endDate, setEndDate] = useState(friday)
     const [reportEntries, setReportEntries] = useState<ApiResponse.ReportEntry[] | null>(null)
@@ -18,30 +17,24 @@ const ReportEntries: FunctionComponent = () => {
     const [user, setUser] = useState<App.User | null>(null)
 
     useEffect(() => {
+        getUser()
+        getReportEntries()
+    }, [])
+
+    const getUser = () => {
         axios.get<ApiResponse.User>(links.api.profile)
         .then(response => setUser({
             ...response.data,
             beginOfApprenticeship: stringToDate(response.data.beginOfApprenticeship)
         }))
         .catch(() => alert('Could not get user data from api!'))
-    }, []);
-
-    const getReportEntries = () => {
-        if(user !== null) {
-            const start = dateToString(user.beginOfApprenticeship)
-            const end = dateToString(new Date())
-            const params: ApiRequest.ReportEntry.Params = {
-                params: {start, end}
-            }
-            axios.get<ApiResponse.ReportEntry[]>(links.api.reportEntries, params)
-            .then(reportEntries => setReportEntries(reportEntries.data))
-            .catch(() => alert('Could not get report entries from api!'))
-        }
     }
 
-    useEffect(() => {
-        getReportEntries()
-    }, [user])
+    const getReportEntries = () => {
+        axios.get<ApiResponse.ReportEntry[]>(links.api.reportEntries)
+        .then(reportEntries => setReportEntries(reportEntries.data))
+        .catch(() => alert('Could not get report entries from api!'))
+    }
 
     useEffect(() => {
         if(reportEntries !== null && user !== null) {
@@ -67,7 +60,7 @@ const ReportEntries: FunctionComponent = () => {
                 }
             }))
         }
-    }, [reportEntries, startDate, endDate])
+    }, [reportEntries, user, startDate, endDate])
 
     const onDateChange = (date: Date) => {
         const [newStartDate, newEndDate] = weekDateRange(date)
