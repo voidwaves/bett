@@ -22,7 +22,12 @@ const Profile: FunctionComponent = () => {
     const handleDelete = () => {
         if(user !== null && window.confirm('are you sure that you want to delete your account permanently?')) {
             axios.delete(links.api.profileDelete(user.id))
-            logout()
+            .then(() => {
+                logout()
+            })
+            .catch(() => {
+                alert('could not delete user profile')
+            })
         }
     }
 
@@ -36,7 +41,12 @@ const Profile: FunctionComponent = () => {
                 beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
             }
             axios.put(links.api.profile, body)
-            setFieldsDisabled(true)
+            .then(() => {
+                setFieldsDisabled(true)
+            })
+            .catch(() => {
+                alert('could not change user profile')
+            })
         }
     }
 
