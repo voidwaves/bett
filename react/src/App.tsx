@@ -22,7 +22,6 @@ const App = () => {
   const isAuthorized = useLoginState();
   return (
     <>
-      {/* <Navbar /> */}
       <Navbarnavi />
 
       <div className="home-banner"></div>

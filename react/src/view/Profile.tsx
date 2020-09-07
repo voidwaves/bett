@@ -11,11 +11,11 @@ import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Profile: FunctionComponent = () => {
-    const [fieldsDisabled, setFieldsDisabled] = useState(true)
-    const [newPassword, setNewPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [user, setUser] = useState<App.User | null>(null)
-    const logout = useLogout()
+  const [fieldsDisabled, setFieldsDisabled] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [user, setUser] = useState<App.User | null>(null);
+  const logout = useLogout();
 
   useEffect(() => {
     axios
@@ -31,44 +31,50 @@ const Profile: FunctionComponent = () => {
       .catch(() => alert("could not load profile"));
   }, []);
 
-    const handleDelete = () => {
-        if(user !== null && window.confirm('are you sure that you want to delete your account permanently?')) {
-            axios.delete(links.api.profileDelete(user.id))
-            .then(() => {
-                logout()
-            })
-            .catch(() => {
-                alert('could not delete user profile')
-            })
-        }
+  const handleDelete = () => {
+    if (
+      user !== null &&
+      window.confirm(
+        "are you sure that you want to delete your account permanently?"
+      )
+    ) {
+      axios
+        .delete(links.api.profileDelete(user.id))
+        .then(() => {
+          logout();
+        })
+        .catch(() => {
+          alert("could not delete user profile");
+        });
     }
+  };
 
-    const handleSave = () => {
-        if(user !== null) {
-            const passwordsMatch = newPassword === confirmPassword
-            const passwordsEmpty = newPassword === '' && confirmPassword === ''
+  const handleSave = () => {
+    if (user !== null) {
+      const passwordsMatch = newPassword === confirmPassword;
+      const passwordsEmpty = newPassword === "" && confirmPassword === "";
 
-            if(passwordsMatch) {
-                const body: ApiRequest.User.Put = {
-                    ...user,
-                    password: passwordsEmpty ? user.password : newPassword,
-                    beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
-                }
-                axios.put(links.api.profile, body)
-                .then(() => {
-                    setFieldsDisabled(true)
-                    setNewPassword('')
-                    setConfirmPassword('')
-                })
-                .catch(() => {
-                    alert('could not change user profile')
-                })
-            }
-            else {
-                alert('the two password did not match!')
-            }
-        }
+      if (passwordsMatch) {
+        const body: ApiRequest.User.Put = {
+          ...user,
+          password: passwordsEmpty ? user.password : newPassword,
+          beginOfApprenticeship: dateToString(user.beginOfApprenticeship),
+        };
+        axios
+          .put(links.api.profile, body)
+          .then(() => {
+            setFieldsDisabled(true);
+            setNewPassword("");
+            setConfirmPassword("");
+          })
+          .catch(() => {
+            alert("could not change user profile");
+          });
+      } else {
+        alert("the two password did not match!");
+      }
     }
+  };
 
   return (
     <Fragment>
@@ -120,23 +126,6 @@ const Profile: FunctionComponent = () => {
                   />
                 </Form.Group>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6 col-sm-6 my-col-Login2">
-                <Form.Group controlId="formBasicPassword">
-                  <Form.Label>begin of apprenticeship</Form.Label>{" "}
-                  <DatePicker
-                    selected={user.beginOfApprenticeship}
-                    disabled={fieldsDisabled}
-                    onChange={(date: Date) =>
-                      setUser({ ...user, beginOfApprenticeship: date })
-                    }
-                  />
-                </Form.Group>
-              </div>
-            </div>
-
-            <div className="row">
               <div className="col-md-6 col-sm-6 my-col-Login2">
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>User Name</Form.Label>
@@ -151,6 +140,7 @@ const Profile: FunctionComponent = () => {
                 </Form.Group>
               </div>
             </div>
+
             <div className="row">
               <div className="col-md-6 col-sm-6 my-col-Login2">
                 <Form.Group controlId="formBasicPassword">
@@ -159,14 +149,10 @@ const Profile: FunctionComponent = () => {
                     value={newPassword}
                     disabled={fieldsDisabled}
                     type="text"
-                    onChange={(event) =>
-                      setNewPassword(event.target.value)
-                    }
+                    onChange={(event) => setNewPassword(event.target.value)}
                   />
                 </Form.Group>
               </div>
-            </div>
-            <div className="row">
               <div className="col-md-6 col-sm-6 my-col-Login2">
                 <Form.Group controlId="formBasicPassword">
                   <Form.Label>Confirm Password</Form.Label>
@@ -174,8 +160,20 @@ const Profile: FunctionComponent = () => {
                     value={confirmPassword}
                     disabled={fieldsDisabled}
                     type="text"
-                    onChange={(event) =>
-                      setConfirmPassword(event.target.value)
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>begin of apprenticeship</Form.Label>{" "}
+                  <DatePicker
+                    selected={user.beginOfApprenticeship}
+                    disabled={fieldsDisabled}
+                    onChange={(date: Date) =>
+                      setUser({ ...user, beginOfApprenticeship: date })
                     }
                   />
                 </Form.Group>
@@ -236,7 +234,7 @@ const Profile: FunctionComponent = () => {
         </>
       )}
     </Fragment>
-  )
-}
+  );
+};
 
 export default Profile;
