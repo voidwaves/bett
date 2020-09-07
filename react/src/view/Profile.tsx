@@ -28,7 +28,13 @@ const Profile: FunctionComponent = () => {
 
     const handleSave = () => {
         if(user !== null) {
-            const body: ApiRequest.User.Put = {...user, beginOfApprenticeship: dateToString(user.beginOfApprenticeship)}
+            const body: ApiRequest.User.Put = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                label: user.label,
+                beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
+            }
             axios.put(links.api.profile, body)
             setFieldsDisabled(true)
         }

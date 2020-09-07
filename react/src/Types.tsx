@@ -61,8 +61,6 @@ export namespace ApiRequest {
             lastName: string
             beginOfApprenticeship: string
             label: string
-            username: string
-            password: string
         }
     }
     export type Login = {
