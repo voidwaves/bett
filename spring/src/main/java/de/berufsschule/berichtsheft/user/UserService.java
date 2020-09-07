@@ -4,6 +4,9 @@ import de.berufsschule.berichtsheft.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -12,6 +15,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenUtil tokenUtil;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final Pattern BCRYPT_PATTERN = Pattern
+            .compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
 
     public boolean existsById(Integer id) {
         return userRepository.findById(id).isPresent();
@@ -33,7 +39,9 @@ public class UserService {
     }
 
     public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (!BCRYPT_PATTERN.matcher(user.getPassword()).matches()) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
