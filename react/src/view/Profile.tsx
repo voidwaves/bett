@@ -6,6 +6,9 @@ import { stringToDate, dateToString } from "../utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useLogout } from "../AppState";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Profile: FunctionComponent = () => {
     const [fieldsDisabled, setFieldsDisabled] = useState(true)
@@ -39,7 +42,6 @@ const Profile: FunctionComponent = () => {
             })
         }
     }
-  };
 
     const handleSave = () => {
         if(user !== null) {
@@ -65,36 +67,128 @@ const Profile: FunctionComponent = () => {
             }
         }
     }
-  };
 
-    return (
-        <Fragment>
-            <h1>User Profile</h1>
-            {user === null ? <h2>loading...</h2> : (
-                <div>
-                    <h3>username</h3>
-                    <input value={user.username} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, username: event.target.value})}/>
-                    <h3>label</h3>
-                    <input value={user.label} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, label: event.target.value})}/>
-                    <h3>first name</h3>
-                    <input value={user.firstName} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, firstName: event.target.value})}/>
-                    <h3>last name</h3>
-                    <input value={user.lastName} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, lastName: event.target.value})}/>
-                    <h3>begin of apprenticeship</h3>
-                    <DatePicker selected={user.beginOfApprenticeship} disabled={fieldsDisabled} onChange={(date: Date) => setUser({...user, beginOfApprenticeship: date})}/>
+  return (
+    <Fragment>
+      <h1>User Profile</h1>
+      {user === null ? (
+        <h2>loading...</h2>
+      ) : (
+        <>
+          <Form>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Label</Form.Label>
+                  <Form.Control
+                    value={user.label}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setUser({ ...user, label: event.target.value })
+                    }
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control
+                    value={user.firstName}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setUser({ ...user, firstName: event.target.value })
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control
+                    value={user.lastName}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setUser({ ...user, lastName: event.target.value })
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>begin of apprenticeship</Form.Label>{" "}
+                  <DatePicker
+                    selected={user.beginOfApprenticeship}
+                    disabled={fieldsDisabled}
+                    onChange={(date: Date) =>
+                      setUser({ ...user, beginOfApprenticeship: date })
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+          </Form>
+          {/* <h3>label</h3>
+          <input
+            value={user.label}
+            disabled={fieldsDisabled}
+            type="text"
+            onChange={(event) =>
+              setUser({ ...user, label: event.target.value })
+            }
+          />
+          <h3>first name</h3>
+          <input
+            value={user.firstName}
+            disabled={fieldsDisabled}
+            type="text"
+            onChange={(event) =>
+              setUser({ ...user, firstName: event.target.value })
+            }
+          />
+          <h3>last name</h3>
+          <input
+            value={user.lastName}
+            disabled={fieldsDisabled}
+            type="text"
+            onChange={(event) =>
+              setUser({ ...user, lastName: event.target.value })
+            }
+          /> */}
+          {/* <h3>begin of apprenticeship</h3>
+          <DatePicker
+            selected={user.beginOfApprenticeship}
+            disabled={fieldsDisabled}
+            onChange={(date: Date) =>
+              setUser({ ...user, beginOfApprenticeship: date })
+            }
+          /> */}
+          <div className="row justify-content-between buttons">
+            {" "}
+            <div className="col-md-4 col-sm-4 buttons">
+              <Button onClick={() => setFieldsDisabled(false)}>Edit</Button>
+            </div>
+            <div className="col-md-4 col-sm-4 buttons">
+              <Button onClick={handleSave}>Save</Button>
+            </div>
+            <div className="col-md-4 col-sm-4 buttons">
+              <Button onClick={handleDelete}>Delete</Button>
+            </div>
+          </div>
 
-                    <h3>enter new password</h3>
-                    <input value={newPassword} disabled={fieldsDisabled} type="text" onChange={event => setNewPassword(event.target.value)}/>
-                    <h3>confirm new password</h3>
-                    <input value={confirmPassword} disabled={fieldsDisabled} type="text" onChange={event => setConfirmPassword(event.target.value)}/>
-
-                    <button onClick={() => setFieldsDisabled(false)}>edit</button>
-                    <button onClick={handleSave}>save</button>
-                    <button onClick={handleDelete}>delete</button>
-                </div>
-            )}
-        </Fragment>
-    )
+          {/* <button onClick={() => setFieldsDisabled(false)}>edit</button>
+          <button onClick={handleSave}>save</button>
+          <button onClick={handleDelete}>Delete</button> */}
+        </>
+      )}
+    </Fragment>
+  )
 }
 
 export default Profile;

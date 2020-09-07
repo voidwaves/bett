@@ -6,21 +6,12 @@ import { links } from "../Links";
 import Login from "./Login";
 import Register from "./Register";
 import HomeText from "./HomeText";
+import Navbarnavi from "../elements/Navbarnavi";
+import Footer from "../elements/Footer";
 
 const Landing: FunctionComponent = () => {
   const { register, login } = links.browser;
   return (
-    //   <div className="row  my-row">
-    //   <div className="col-md-6 col-sm-6 my-col-Login2">
-    //     <HomeText />
-    //   </div>
-    //   <div className="col-md-6 col-sm-6 my-col-Login">
-    //     {isAuthorized ? <CoreApp /> : <LoginApp />}
-    //     {/* isAuthorized ? <CoreApp /> : <LoginApp /> */}
-    //     {/* <LoginApp /> */}
-    //   </div>
-    // </div>
-
     <Fragment>
       <div className="row  my-row">
         <div className="col-md-6 col-sm-6 my-col-Login2">

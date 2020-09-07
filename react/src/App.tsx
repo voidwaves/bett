@@ -10,6 +10,7 @@ import Login from "./view/Login";
 import { links } from "./Links";
 import Footer from "./elements/Footer";
 import HomeText from "./view/HomeText";
+import Navbarnavi from "./elements/Navbarnavi";
 
 const WrappedApp = () => (
   <LoginStateProvider>
@@ -22,12 +23,12 @@ const App = () => {
   return (
     <>
       {/* <Navbar /> */}
+      <Navbarnavi />
+
       <div className="home-banner"></div>
       <div className="contentContainer">
         <div className="container my-container">
-          <div className="row  my-row">
-            {isAuthorized ? <CoreApp /> : <LoginApp />}
-          </div>
+          {isAuthorized ? <CoreApp /> : <LoginApp />}
         </div>
       </div>
       <Footer />

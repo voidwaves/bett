@@ -4,6 +4,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { App, ApiRequest } from "../Types";
 import { links } from "../Links";
 import { dateToString, fromEvent } from "../utils";
+import "react-datepicker/dist/react-datepicker.css";
+import Card from "react-bootstrap/Card";
+import Accordion from "react-bootstrap/Accordion";
 
 type EntryListItemProps = {
   reportEntry: App.ReportEntry;
@@ -89,7 +92,31 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
 
   return (
     <Fragment>
-      {/* <div>test</div> */}
+      {/* <Card bg="secondary" border="danger" style={{ width: "18rem" }}>
+        <Card.Header>{dateToString(reportEntry.reportDate)}</Card.Header>
+        <Card.Body>
+          <Card.Title>Danger Card Title</Card.Title>
+          <Card.Text></Card.Text>
+        </Card.Body>
+      </Card> */}
+      <Accordion defaultActiveKey="0">
+        <Card>
+          <Accordion.Toggle as={Card.Header} eventKey="0">
+            {dateToString(reportEntry.reportDate)}
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>{content}</Card.Body>
+          </Accordion.Collapse>
+        </Card>
+        <Card>
+          <Accordion.Toggle as={Card.Header} eventKey="1">
+            Details
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey="1">
+            <Card.Body>Hello! I'm another body</Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      </Accordion>
       <div
         style={{
           backgroundColor: reportEntry.exists ? "lightgreen" : "lightcoral",

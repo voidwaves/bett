@@ -70,6 +70,7 @@ const Register: FunctionComponent = () => {
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
             <Form.Control
+              type="password"
               placeholder="Password"
               onChange={fromEvent(setPassword)}
             />
