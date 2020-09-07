@@ -10,6 +10,8 @@ import { useLogout } from '../AppState'
 
 const Profile: FunctionComponent = () => {
     const [fieldsDisabled, setFieldsDisabled] = useState(true)
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [user, setUser] = useState<App.User | null>(null)
     const logout = useLogout()
 
@@ -33,20 +35,26 @@ const Profile: FunctionComponent = () => {
 
     const handleSave = () => {
         if(user !== null) {
-            const body: ApiRequest.User.Put = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                label: user.label,
-                beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
+            const passwordsMatch = newPassword === confirmPassword
+            const passwordsEmpty = newPassword === '' && confirmPassword === ''
+
+            if(passwordsMatch) {
+                const body: ApiRequest.User.Put = {
+                    ...user,
+                    password: passwordsEmpty ? user.password : newPassword,
+                    beginOfApprenticeship: dateToString(user.beginOfApprenticeship)
+                }
+                axios.put(links.api.profile, body)
+                .then(() => {
+                    setFieldsDisabled(true)
+                })
+                .catch(() => {
+                    alert('could not change user profile')
+                })
             }
-            axios.put(links.api.profile, body)
-            .then(() => {
-                setFieldsDisabled(true)
-            })
-            .catch(() => {
-                alert('could not change user profile')
-            })
+            else {
+                alert('the two password did not match!')
+            }
         }
     }
 
@@ -55,6 +63,8 @@ const Profile: FunctionComponent = () => {
             <h1>User Profile</h1>
             {user === null ? <h2>loading...</h2> : (
                 <div>
+                    <h3>username</h3>
+                    <input value={user.username} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, username: event.target.value})}/>
                     <h3>label</h3>
                     <input value={user.label} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, label: event.target.value})}/>
                     <h3>first name</h3>
@@ -63,6 +73,11 @@ const Profile: FunctionComponent = () => {
                     <input value={user.lastName} disabled={fieldsDisabled} type="text" onChange={event => setUser({...user, lastName: event.target.value})}/>
                     <h3>begin of apprenticeship</h3>
                     <DatePicker selected={user.beginOfApprenticeship} disabled={fieldsDisabled} onChange={(date: Date) => setUser({...user, beginOfApprenticeship: date})}/>
+
+                    <h3>enter new password</h3>
+                    <input value={newPassword} disabled={fieldsDisabled} type="text" onChange={event => setNewPassword(event.target.value)}/>
+                    <h3>confirm new password</h3>
+                    <input value={confirmPassword} disabled={fieldsDisabled} type="text" onChange={event => setConfirmPassword(event.target.value)}/>
 
                     <button onClick={() => setFieldsDisabled(false)}>edit</button>
                     <button onClick={handleSave}>save</button>
