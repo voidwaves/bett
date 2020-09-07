@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ApiResponse, App } from "../Types";
 import { links } from "../Links";
 import Button from "react-bootstrap/Button";
-// import jsPDFGenerator from "../elements/jsPDFGenerator";
+import jsPDFGenerator from "../elements/jsPDFGenerator";
 import {
   dateToString,
   dateRange,
@@ -123,7 +123,9 @@ const ReportEntries: FunctionComponent = () => {
               reload={getReportEntries}
             />
           ))}
-      {/* <Button onClick={() => jsPDFGenerator(fullEntryList)}>PDF</Button> */}
+      {fullEntryList === null ? null : (
+        <Button onClick={() => jsPDFGenerator(fullEntryList)}>PDF</Button>
+      )}
     </Fragment>
   );
 };
