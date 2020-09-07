@@ -1,56 +1,108 @@
-
-import React, { FunctionComponent, Fragment, useState } from 'react'
-import DatePicker from 'react-datepicker'
-import axios from 'axios'
-import { Redirect } from 'react-router-dom'
-import { ApiRequest } from '../Types'
-import { dateToString, fromEvent } from '../utils'
-import { links } from '../Links'
-
+import React, { FunctionComponent, Fragment, useState } from "react";
+import DatePicker from "react-datepicker";
+import axios from "axios";
+import { Redirect } from "react-router-dom";
+import { ApiRequest } from "../Types";
+import { dateToString, fromEvent } from "../utils";
+import { links } from "../Links";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
 const Register: FunctionComponent = () => {
-    const [userName, setUserName] = useState('')
-    const [password, setPassword] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [label, setLabel] = useState('')
-    const [startDate, setStartDate] = useState(new Date())
-    const [redirect, setRedirect] = useState(false)
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [label, setLabel] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [redirect, setRedirect] = useState(false);
 
-    const handleSubmit = () => {
-        const body: ApiRequest.Register = {
-            username: userName,
-            beginOfApprenticeship: dateToString(startDate),
-            password, firstName, lastName, label
-        }
+  const handleSubmit = () => {
+    const body: ApiRequest.Register = {
+      username: userName,
+      beginOfApprenticeship: dateToString(startDate),
+      password,
+      firstName,
+      lastName,
+      label,
+    };
 
-        axios.post<{token: string}>(links.api.register, body)
-        .then(() => {
-            setRedirect(true)
-        })
-        .catch(() => {
-            alert('could not create a new user')
-        })
-    }
+    axios
+      .post<{ token: string }>(links.api.register, body)
+      .then(() => {
+        setRedirect(true);
+      })
+      .catch(() => {
+        alert("could not create a new user");
+      });
+  };
 
-    return redirect ? <Redirect to='/landing'/> : (
-        <Fragment>
-            <h1>Register here</h1>
-            <h2>enter your user name</h2>
-            <input type='text' onChange={fromEvent(setUserName)}/>
-            <h2>enter your password</h2>
-            <input type='password' onChange={fromEvent(setPassword)}/>
-            <h2>enter your first name</h2>
-            <input type='text' onChange={fromEvent(setFirstName)}/>
-            <h2>enter your last name</h2>
-            <input type='text' onChange={fromEvent(setLastName)}/>
-            <h2>enter your job label</h2>
-            <input type='text' onChange={fromEvent(setLabel)}/>
-            <h2>enter the start date of your apprenticeship</h2>
-            <DatePicker selected={startDate} onChange={date => setStartDate(date as Date)}/>
-            <br/>
-            <button onClick={handleSubmit}>register</button>
-        </Fragment>
-    )
-}
+  return redirect ? (
+    <Redirect to="/landing" />
+  ) : (
+    <>
+      <div className=" registerForm">
+        <Form>
+          <div className="row">
+            <div className="col-md-6 col-sm-6 my-col-Login2">
+              <Form.Group controlId="formBasicPassword">
+                <Form.Control
+                  placeholder="Firstname"
+                  onChange={fromEvent(setFirstName)}
+                />
+              </Form.Group>
+            </div>
+            <div className="col-md-6 col-sm-6 my-col-Login2">
+              <Form.Group controlId="formBasicPassword">
+                <Form.Control
+                  placeholder="Lastname"
+                  onChange={fromEvent(setLastName)}
+                />
+              </Form.Group>
+            </div>
+          </div>
 
-export default Register
+          <Form.Group controlId="formBasicEmail">
+            <Form.Control
+              placeholder="Username"
+              onChange={fromEvent(setUserName)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              placeholder="Password"
+              onChange={fromEvent(setPassword)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formBasicPassword">
+            <Form.Control
+              placeholder="Job Label"
+              onChange={fromEvent(setLabel)}
+            />
+          </Form.Group>
+          <Form.Label>enter the start date of your apprenticeship</Form.Label>
+          <br />
+          <br />
+
+          <div className="row">
+            <div className="col-md-6 col-sm-6 my-col-Login2">
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date as Date)}
+              />
+            </div>
+
+            <div className="col-md-6 col-sm-6 my-col-Login2">
+              <Button variant="secondary" onClick={handleSubmit}>
+                register
+              </Button>
+            </div>
+          </div>
+        </Form>
+      </div>
+    </>
+  );
+};
+
+export default Register;

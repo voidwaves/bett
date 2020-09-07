@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+:root {
+  --mainGrey: rgb(248, 244, 244);
+}
 
 .App-logo {
   height: 40vmin;
@@ -22,6 +25,9 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.lala ul li a {
+  background-color: red;
 }
 
 .App-link {

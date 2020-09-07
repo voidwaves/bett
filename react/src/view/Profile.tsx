@@ -1,12 +1,11 @@
-
-import React, { FunctionComponent, Fragment, useState, useEffect } from 'react'
-import { ApiResponse, App, ApiRequest } from '../Types'
-import axios from 'axios'
-import { links } from '../Links'
-import { stringToDate, dateToString } from '../utils'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { useLogout } from '../AppState'
+import React, { FunctionComponent, Fragment, useState, useEffect } from "react";
+import { ApiResponse, App, ApiRequest } from "../Types";
+import axios from "axios";
+import { links } from "../Links";
+import { stringToDate, dateToString } from "../utils";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useLogout } from "../AppState";
 
 const Profile: FunctionComponent = () => {
     const [fieldsDisabled, setFieldsDisabled] = useState(true)
@@ -15,11 +14,19 @@ const Profile: FunctionComponent = () => {
     const [user, setUser] = useState<App.User | null>(null)
     const logout = useLogout()
 
-    useEffect(() => {
-        axios.get<ApiResponse.User>(links.api.profile)
-        .then(response => setUser({...response.data, beginOfApprenticeship: stringToDate(response.data.beginOfApprenticeship)}))
-        .catch(() => alert('could not load profile'))
-    }, [])
+  useEffect(() => {
+    axios
+      .get<ApiResponse.User>(links.api.profile)
+      .then((response) =>
+        setUser({
+          ...response.data,
+          beginOfApprenticeship: stringToDate(
+            response.data.beginOfApprenticeship
+          ),
+        })
+      )
+      .catch(() => alert("could not load profile"));
+  }, []);
 
     const handleDelete = () => {
         if(user !== null && window.confirm('are you sure that you want to delete your account permanently?')) {
@@ -32,6 +39,7 @@ const Profile: FunctionComponent = () => {
             })
         }
     }
+  };
 
     const handleSave = () => {
         if(user !== null) {
@@ -57,6 +65,7 @@ const Profile: FunctionComponent = () => {
             }
         }
     }
+  };
 
     return (
         <Fragment>
@@ -88,4 +97,4 @@ const Profile: FunctionComponent = () => {
     )
 }
 
-export default Profile
+export default Profile;
