@@ -57,6 +57,8 @@ const Profile: FunctionComponent = () => {
                 axios.put(links.api.profile, body)
                 .then(() => {
                     setFieldsDisabled(true)
+                    setNewPassword('')
+                    setConfirmPassword('')
                 })
                 .catch(() => {
                     alert('could not change user profile')
@@ -128,6 +130,52 @@ const Profile: FunctionComponent = () => {
                     disabled={fieldsDisabled}
                     onChange={(date: Date) =>
                       setUser({ ...user, beginOfApprenticeship: date })
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>User Name</Form.Label>
+                  <Form.Control
+                    value={user.username}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setUser({ ...user, username: event.target.value })
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>New Password</Form.Label>
+                  <Form.Control
+                    value={newPassword}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setNewPassword(event.target.value)
+                    }
+                  />
+                </Form.Group>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6 col-sm-6 my-col-Login2">
+                <Form.Group controlId="formBasicPassword">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control
+                    value={confirmPassword}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={(event) =>
+                      setConfirmPassword(event.target.value)
                     }
                   />
                 </Form.Group>
