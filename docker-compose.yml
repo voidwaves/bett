@@ -1,0 +1,34 @@
+version: '3.5'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: bett
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./spring
+      dockerfile: dockerfile
+    ports:
+      - "8081:8081"
+    links:
+      - "postgres"
+    depends_on:
+      - "postgres"
+
+  frontend:
+    build:
+      context: ./react
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
+    links:
+      - "backend"
+
