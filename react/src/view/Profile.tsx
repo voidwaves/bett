@@ -180,41 +180,7 @@ const Profile: FunctionComponent = () => {
               </div>
             </div>
           </Form>
-          {/* <h3>label</h3>
-          <input
-            value={user.label}
-            disabled={fieldsDisabled}
-            type="text"
-            onChange={(event) =>
-              setUser({ ...user, label: event.target.value })
-            }
-          />
-          <h3>first name</h3>
-          <input
-            value={user.firstName}
-            disabled={fieldsDisabled}
-            type="text"
-            onChange={(event) =>
-              setUser({ ...user, firstName: event.target.value })
-            }
-          />
-          <h3>last name</h3>
-          <input
-            value={user.lastName}
-            disabled={fieldsDisabled}
-            type="text"
-            onChange={(event) =>
-              setUser({ ...user, lastName: event.target.value })
-            }
-          /> */}
-          {/* <h3>begin of apprenticeship</h3>
-          <DatePicker
-            selected={user.beginOfApprenticeship}
-            disabled={fieldsDisabled}
-            onChange={(date: Date) =>
-              setUser({ ...user, beginOfApprenticeship: date })
-            }
-          /> */}
+
           <div className="row justify-content-between buttons">
             {" "}
             <div className="col-md-4 col-sm-4 buttons">
@@ -227,10 +193,6 @@ const Profile: FunctionComponent = () => {
               <Button onClick={handleDelete}>Delete</Button>
             </div>
           </div>
-
-          {/* <button onClick={() => setFieldsDisabled(false)}>edit</button>
-          <button onClick={handleSave}>save</button>
-          <button onClick={handleDelete}>Delete</button> */}
         </>
       )}
     </Fragment>
