@@ -6,6 +6,7 @@ import { ApiResponse, App } from "../Types";
 import { links } from "../Links";
 import Button from "react-bootstrap/Button";
 import jsPDFGenerator from "../elements/jsPDFGenerator";
+import Form from "react-bootstrap/Form";
 import {
   dateToString,
   dateRange,
@@ -95,24 +96,30 @@ const ReportEntries: FunctionComponent = () => {
 
   return user === null || reportEntries === null ? null : (
     <Fragment>
-      <h2>Select a week</h2>
-      <DatePicker
-        selected={startDate}
-        onChange={onDateChange}
-        onWeekSelect={onDateChange}
-        startDate={startDate}
-        endDate={endDate}
-        minDate={user.beginOfApprenticeship}
-        maxDate={new Date()}
-        filterDate={isWeekDay}
-        shouldCloseOnSelect={false}
-        highlightDates={reportEntries.map((entry) =>
-          stringToDate(entry.reportDate)
-        )}
-        showWeekNumbers
-        showMonthDropdown
-        showYearDropdown
-      />
+      <div className="row">
+        <div className="col-md-3 col-sm-6 ">
+          <Form.Label>Select a week</Form.Label>
+        </div>
+        <div className="col-md-8 col-sm-6 ">
+          <DatePicker
+            selected={startDate}
+            onChange={onDateChange}
+            onWeekSelect={onDateChange}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={user.beginOfApprenticeship}
+            maxDate={new Date()}
+            filterDate={isWeekDay}
+            shouldCloseOnSelect={false}
+            highlightDates={reportEntries.map((entry) =>
+              stringToDate(entry.reportDate)
+            )}
+            showWeekNumbers
+            showMonthDropdown
+            showYearDropdown
+          />{" "}
+        </div>
+      </div>
       {fullEntryList === null
         ? null
         : fullEntryList.map((reportEntry) => (
@@ -123,8 +130,8 @@ const ReportEntries: FunctionComponent = () => {
             />
           ))}
       {fullEntryList === null ? null : (
-        <Button onClick={() => jsPDFGenerator(fullEntryList)}>PDF</Button>
-      )}
+        <Button onClick={() => jsPDFGenerator(fullEntryList)}>Download</Button>
+      )}{" "}
     </Fragment>
   );
 };

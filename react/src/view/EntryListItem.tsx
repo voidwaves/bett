@@ -32,17 +32,17 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
   };
 
   const handleDelete = () => {
-    if (window.confirm("do you really want to delete this report entry?")) {
+    if (window.confirm("Do you really want to delete this report entry?")) {
       const { id } = reportEntry;
       axios
         .delete(links.api.reportEntryDelete(id))
         .then(() => {
-          alert("successfully deleted the report entry");
+          alert("Successfully deleted the report entry");
           reload();
           resetInputs();
         })
         .catch(() => {
-          alert("could not delete report entry");
+          alert("Could not delete report entry");
         });
     }
   };
@@ -65,7 +65,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
           reload();
         })
         .catch(() => {
-          alert("could not save existing report entry");
+          alert("Could not save existing report entry");
         });
     } else {
       const body: ApiRequest.ReportEntry.Post = {
@@ -81,7 +81,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
           reload();
         })
         .catch(() => {
-          alert("could not create new report entry");
+          alert("Could not create new report entry");
         });
     }
   };
@@ -93,13 +93,6 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
 
   return (
     <Fragment>
-      {/* <Card bg="secondary" border="danger" style={{ width: "18rem" }}>
-        <Card.Header>{dateToString(reportEntry.reportDate)}</Card.Header>
-        <Card.Body>
-          <Card.Title>Danger Card Title</Card.Title>
-          <Card.Text></Card.Text>
-        </Card.Body>
-      </Card> */}
       <Accordion defaultActiveKey="0">
         <Card
           style={{
@@ -180,53 +173,6 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
         </Card>
       </Accordion>
       <hr></hr>
-      {/* <div
-        style={{
-          backgroundColor: reportEntry.exists ? "lightgreen" : "lightcoral",
-          width: 500,
-        }}
-      >
-        <h3>{dateToString(reportEntry.reportDate)}</h3>
-        <h3>{reportEntry.department}</h3>
-        {!isModalOpen ? (
-          <button onClick={() => setIsModalOpen(true)}>details</button>
-        ) : (
-          <div style={{ backgroundColor: "lightblue", width: 300 }}>
-            <h2>Report for {dateToString(reportEntry.reportDate)}</h2>
-
-            <h3>workingHours</h3>
-            <input
-              value={workingHours}
-              disabled={fieldsDisabled}
-              type="number"
-              onChange={(event) =>
-                setWorkingHours(parseInt(event.target.value))
-              }
-            />
-            <h3>department</h3>
-            <input
-              value={department}
-              disabled={fieldsDisabled}
-              type="text"
-              onChange={fromEvent(setDepartment)}
-            />
-            <h3>content</h3>
-            <input
-              value={content}
-              disabled={fieldsDisabled}
-              type="text"
-              onChange={fromEvent(setContent)}
-            />
-
-            <button onClick={() => setFieldsDisabled(false)}>edit</button>
-            <button onClick={handleSave}>save</button>
-            {!reportEntry.exists ? null : (
-              <button onClick={handleDelete}>delete</button>
-            )}
-            <button onClick={handleClose}>close</button>
-          </div>
-        )}
-      </div> */}
     </Fragment>
   );
 };
