@@ -130,7 +130,7 @@ const ReportEntries: FunctionComponent = () => {
             />
           ))}
       {fullEntryList === null ? null : (
-        <Button onClick={() => jsPDFGenerator(fullEntryList)}>Download</Button>
+        <Button onClick={() => jsPDFGenerator(fullEntryList, user)}>Download</Button>
       )}{" "}
     </Fragment>
   );
