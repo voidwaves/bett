@@ -113,7 +113,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
           <Accordion.Collapse eventKey="1">
             <Card.Body>
               <div className="row">
-                <div className="col-md-6 col-sm-6 ">
+                <div className="col-md-8 col-sm-6 ">
                   {" "}
                   <Form.Group controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Content</Form.Label>
@@ -125,7 +125,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
                     />
                   </Form.Group>
                 </div>
-                <div className="col-md-3 col-sm-6 ">
+                <div className="col-md-2 col-sm-6 ">
                   {" "}
                   <Form.Label>Department</Form.Label>
                   <Form.Control
@@ -135,7 +135,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
                     onChange={fromEvent(setDepartment)}
                   />
                 </div>
-                <div className="col-md-3 col-sm-6 ">
+                <div className="col-md-2 col-sm-6 ">
                   {" "}
                   <Form.Label>WorkingHours</Form.Label>
                   <Form.Control
