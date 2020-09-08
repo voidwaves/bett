@@ -103,7 +103,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
             {dateToString(reportEntry.reportDate)}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
-            <Card.Body>{department}</Card.Body>
+            <Card.Body>Department: {department}</Card.Body>
           </Accordion.Collapse>
         </Card>
         <Card>
@@ -113,14 +113,10 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
           <Accordion.Collapse eventKey="1">
             <Card.Body>
               <div className="row">
-                <div className="col-md-6 col-sm-6 ">Content</div>
-                <div className="col-md-3 col-sm-6 ">Department</div>
-                <div className="col-md-3 col-sm-6 ">Working Hour</div>
-              </div>
-              <div className="row">
                 <div className="col-md-6 col-sm-6 ">
                   {" "}
                   <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Content</Form.Label>
                     <Form.Control
                       value={content}
                       disabled={fieldsDisabled}
@@ -131,6 +127,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
                 </div>
                 <div className="col-md-3 col-sm-6 ">
                   {" "}
+                  <Form.Label>Department</Form.Label>
                   <Form.Control
                     value={department}
                     disabled={fieldsDisabled}
@@ -140,6 +137,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
                 </div>
                 <div className="col-md-3 col-sm-6 ">
                   {" "}
+                  <Form.Label>WorkingHours</Form.Label>
                   <Form.Control
                     value={workingHours}
                     disabled={fieldsDisabled}
