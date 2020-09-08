@@ -148,7 +148,7 @@ const Profile: FunctionComponent = () => {
                   <Form.Control
                     value={newPassword}
                     disabled={fieldsDisabled}
-                    type="text"
+                    type="password"
                     onChange={(event) => setNewPassword(event.target.value)}
                   />
                 </Form.Group>
@@ -159,7 +159,7 @@ const Profile: FunctionComponent = () => {
                   <Form.Control
                     value={confirmPassword}
                     disabled={fieldsDisabled}
-                    type="text"
+                    type="password"
                     onChange={(event) => setConfirmPassword(event.target.value)}
                   />
                 </Form.Group>

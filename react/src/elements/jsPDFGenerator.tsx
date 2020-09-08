@@ -9,11 +9,11 @@ const jsPdfGenerator = (week: App.ReportEntry[]) => {
   const doc = new jsPDF("p", "pt");
   doc.setFont("courier");
   doc.setFontSize(11);
+  // doc.setFontType("bold");
+  doc.text("Name :" + week[1].user.firstName + week[1].user.lastName, 200, 50);
+  doc.text("Ausbildungsabteilung :" + week[0].department, 200, 80);
+  doc.text("Tätigkeitnachweis :" + week[0].department, 80, 110);
 
-  //   doc.autoTable({
-  //     body: [[""], [""]],
-  //     theme: "plain",
-  //   });
   //   doc.autoTable({
   //     body: [
   //       ["Name:", "Mohammad Younus Jabari"],
@@ -55,7 +55,7 @@ const jsPdfGenerator = (week: App.ReportEntry[]) => {
   //   doc.text(50, 770, "Auszubildender");
   //   doc.text(250, 770, "Ausbilder");
   //   doc.text(380, 770, "Gesetzlicher Vertreter");
-
-  //   doc.save(week.dateUrl);
+  // doc.table(3, 5, week, "sdf");
+  doc.save("test");
 };
 export default jsPdfGenerator;

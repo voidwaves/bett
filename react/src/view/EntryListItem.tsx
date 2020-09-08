@@ -7,6 +7,7 @@ import { dateToString, fromEvent } from "../utils";
 import "react-datepicker/dist/react-datepicker.css";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
+import { Form, Button } from "react-bootstrap";
 
 type EntryListItemProps = {
   reportEntry: App.ReportEntry;
@@ -100,12 +101,16 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
         </Card.Body>
       </Card> */}
       <Accordion defaultActiveKey="0">
-        <Card>
+        <Card
+          style={{
+            backgroundColor: reportEntry.exists ? "lightblue" : "lightcoral",
+          }}
+        >
           <Accordion.Toggle as={Card.Header} eventKey="0">
             {dateToString(reportEntry.reportDate)}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
-            <Card.Body>{content}</Card.Body>
+            <Card.Body>{department}</Card.Body>
           </Accordion.Collapse>
         </Card>
         <Card>
@@ -113,11 +118,69 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
             Details
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="1">
-            <Card.Body>Hello! I'm another body</Card.Body>
+            <Card.Body>
+              <div className="row">
+                <div className="col-md-6 col-sm-6 ">Content</div>
+                <div className="col-md-3 col-sm-6 ">Department</div>
+                <div className="col-md-3 col-sm-6 ">Working Hour</div>
+              </div>
+              <div className="row">
+                <div className="col-md-6 col-sm-6 ">
+                  {" "}
+                  <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form.Control
+                      value={content}
+                      disabled={fieldsDisabled}
+                      onChange={fromEvent(setContent)}
+                      as="textarea"
+                    />
+                  </Form.Group>
+                </div>
+                <div className="col-md-3 col-sm-6 ">
+                  {" "}
+                  <Form.Control
+                    value={department}
+                    disabled={fieldsDisabled}
+                    type="text"
+                    onChange={fromEvent(setDepartment)}
+                  />
+                </div>
+                <div className="col-md-3 col-sm-6 ">
+                  {" "}
+                  <Form.Control
+                    value={workingHours}
+                    disabled={fieldsDisabled}
+                    type="number"
+                    onChange={(event) =>
+                      setWorkingHours(parseInt(event.target.value))
+                    }
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-4 col-sm-6 ">
+                  {" "}
+                  <Button onClick={() => setFieldsDisabled(!fieldsDisabled)}>
+                    edit
+                  </Button>
+                </div>
+                <div className="col-md-4 col-sm-6 ">
+                  {" "}
+                  <Button onClick={handleSave}>save</Button>
+                </div>
+                <div className="col-md-4 col-sm-6 ">
+                  {" "}
+                  {!reportEntry.exists ? null : (
+                    <Button onClick={handleDelete}>delete</Button>
+                  )}{" "}
+                </div>
+              </div>
+            </Card.Body>
           </Accordion.Collapse>
         </Card>
       </Accordion>
-      <div
+      <hr></hr>
+      {/* <div
         style={{
           backgroundColor: reportEntry.exists ? "lightgreen" : "lightcoral",
           width: 500,
@@ -163,7 +226,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({
             <button onClick={handleClose}>close</button>
           </div>
         )}
-      </div>
+      </div> */}
     </Fragment>
   );
 };

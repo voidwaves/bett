@@ -92,7 +92,6 @@ const ReportEntries: FunctionComponent = () => {
   };
 
   // random key prop to force rerender
-  console.log("llllllllll", fullEntryList);
 
   return user === null || reportEntries === null ? null : (
     <Fragment>
