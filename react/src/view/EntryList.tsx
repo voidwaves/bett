@@ -96,7 +96,7 @@ const ReportEntries: FunctionComponent = () => {
 
   return user === null || reportEntries === null ? null : (
     <Fragment>
-      <div className="row">
+      <div className="row" style={{marginTop: 30, marginBottom: 30}}>
         <div className="col-md-3 col-sm-6 ">
           <Form.Label>Select a week</Form.Label>
         </div>
