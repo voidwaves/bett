@@ -1,21 +1,21 @@
-import React, { FunctionComponent, Fragment, useState } from "react";
-import DatePicker from "react-datepicker";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
-import { ApiRequest } from "../Types";
-import { dateToString, fromEvent } from "../utils";
-import { links } from "../Links";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { FunctionComponent, Fragment, useState } from 'react'
+import DatePicker from 'react-datepicker'
+import axios from 'axios'
+import { Redirect } from 'react-router-dom'
+import { ApiRequest } from '../Types'
+import { dateToString, fromEvent } from '../utility/utils'
+import { links } from '../Links'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 const Register: FunctionComponent = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [label, setLabel] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [redirect, setRedirect] = useState(false);
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [label, setLabel] = useState('')
+  const [startDate, setStartDate] = useState(new Date())
+  const [redirect, setRedirect] = useState(false)
 
   const handleSubmit = () => {
     const body: ApiRequest.Register = {
@@ -25,60 +25,60 @@ const Register: FunctionComponent = () => {
       firstName,
       lastName,
       label,
-    };
+    }
 
     axios
-      .post<{ token: string }>(links.api.register, body)
+      .post(links.api.register, body)
       .then(() => {
-        setRedirect(true);
+        setRedirect(true)
       })
       .catch(() => {
-        alert("could not create a new user");
-      });
-  };
+        alert('could not create a new user')
+      })
+  }
 
   return redirect ? (
-    <Redirect to="/landing" />
+    <Redirect to='/landing' />
   ) : (
     <>
-      <div className=" registerForm">
+      <div className=' registerForm'>
         <Form>
-          <div className="row">
-            <div className="col-md-6 col-sm-6 my-col-Login2">
-              <Form.Group controlId="formBasicPassword">
+          <div className='row'>
+            <div className='col-md-6 col-sm-6 my-col-Login2'>
+              <Form.Group controlId='formBasicPassword'>
                 <Form.Control
-                  placeholder="Firstname"
+                  placeholder='Firstname'
                   onChange={fromEvent(setFirstName)}
                 />
               </Form.Group>
             </div>
-            <div className="col-md-6 col-sm-6 my-col-Login2">
-              <Form.Group controlId="formBasicPassword">
+            <div className='col-md-6 col-sm-6 my-col-Login2'>
+              <Form.Group controlId='formBasicPassword'>
                 <Form.Control
-                  placeholder="Lastname"
+                  placeholder='Lastname'
                   onChange={fromEvent(setLastName)}
                 />
               </Form.Group>
             </div>
           </div>
 
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId='formBasicEmail'>
             <Form.Control
-              placeholder="Username"
+              placeholder='Username'
               onChange={fromEvent(setUserName)}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group controlId='formBasicPassword'>
             <Form.Control
-              type="password"
-              placeholder="Password"
+              type='password'
+              placeholder='Password'
               onChange={fromEvent(setPassword)}
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group controlId='formBasicPassword'>
             <Form.Control
-              placeholder="Job Label"
+              placeholder='Job Label'
               onChange={fromEvent(setLabel)}
             />
           </Form.Group>
@@ -86,16 +86,16 @@ const Register: FunctionComponent = () => {
           <br />
           <br />
 
-          <div className="row">
-            <div className="col-md-6 col-sm-6 my-col-Login2">
+          <div className='row'>
+            <div className='col-md-6 col-sm-6 my-col-Login2'>
               <DatePicker
                 selected={startDate}
                 onChange={(date) => setStartDate(date as Date)}
               />
             </div>
 
-            <div className="col-md-6 col-sm-6 my-col-Login2">
-              <Button variant="secondary" onClick={handleSubmit}>
+            <div className='col-md-6 col-sm-6 my-col-Login2'>
+              <Button variant='secondary' onClick={handleSubmit}>
                 register
               </Button>
             </div>
@@ -103,7 +103,7 @@ const Register: FunctionComponent = () => {
         </Form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
