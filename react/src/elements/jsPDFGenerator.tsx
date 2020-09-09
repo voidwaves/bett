@@ -14,7 +14,7 @@ const separator = Array.from(Array(72))
 const jsPdfGenerator = (week: App.ReportEntry[], user: App.User) => {
   const [monday, friday] = [week[0], week[4]]
   
-  let doc = new jsPDF('p', 'pt')
+  const doc = new jsPDF('p', 'pt')
   doc.setFont('courier')
   doc.setFontSize(11)
   doc.text(`Name: ${user.firstName} ${user.lastName}`, 200, 70)
