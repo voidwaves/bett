@@ -20,14 +20,10 @@ const jsPdfGenerator = (week: App.ReportEntry[], user: App.User) => {
   doc.text(`Name: ${user.firstName} ${user.lastName}`, 200, 70)
   doc.text(separator, 70, 105)
 
-  doc.text(
-    'Tätigkeitnachweis:        vom: ' +
-      monday.reportDate.toDateString() +
-      '     bis: ' +
-      friday.reportDate.toDateString(),
-    70,
-    130
-  )
+  const mondayString = monday.reportDate.toDateString()
+  const fridayString = friday.reportDate.toDateString()
+  const header = `Tätigkeitnachweis:        vom: ${mondayString}     bis: ${fridayString}`
+  doc.text(header, 70, 130)
 
   doc.text(separator, 70, 135)
   doc.text('Tag', 70, 155);
