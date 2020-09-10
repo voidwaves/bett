@@ -5,7 +5,7 @@ import { links } from '../Links'
 import { ApiRequest } from '../Types'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Komponente mit der die Anmeldung vorgenommen wird
 const Login: FunctionComponent = () => {

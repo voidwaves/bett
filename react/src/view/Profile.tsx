@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { useLogout } from '../AppState'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Komponente zur Darstellung des User Profils
 const Profile: FunctionComponent = () => {

@@ -67,7 +67,18 @@ code {
   border-radius: 5px;
 }
 
-.date-no-highlight {
+.date-nohighlight {
   background-color: lightgray;
   border-radius: 5px;
+}
+
+.date-selected {
+  border-radius: .3rem;
+  background-color: #216ba5;
+  color: #fff;
+}
+
+
+.react-datepicker__week-number {
+  color: black !important;
 }

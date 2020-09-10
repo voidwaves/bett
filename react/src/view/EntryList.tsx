@@ -108,12 +108,15 @@ const EntryList: FunctionComponent = () => {
             shouldCloseOnSelect={false}
             highlightDates={[
               {
-                "date-no-highlight": dateRange(user.beginOfApprenticeship, new Date())
+                "date-nohighlight": dateRange(user.beginOfApprenticeship, new Date())
                 .filter(date => isWeekDay(date))
                 .filter(date => reportEntries.find(entry => isEqual(stringToDate(entry.reportDate), date)) === undefined)
               },
               {
                 "date-highlight": reportEntries.map((entry) => stringToDate(entry.reportDate))
+              },
+              {
+                "date-selected": dateRange(startDate, endDate)
               }
             ]}
             showWeekNumbers
