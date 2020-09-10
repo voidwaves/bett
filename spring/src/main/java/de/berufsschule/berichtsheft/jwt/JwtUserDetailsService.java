@@ -16,6 +16,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Sucht den angegebenen User in der Datenbank
+     * @param username Der zu findende Benutzername
+     * @return Ein {@link org.springframework.security.core.userdetails.User} Objekt mit Name und Passwort
+     * @throws UsernameNotFoundException wenn der Benutzername nicht gefunden wurde
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);

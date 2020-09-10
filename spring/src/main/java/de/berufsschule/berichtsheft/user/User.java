@@ -28,6 +28,9 @@ public class User {
     private String username;
     private String password;
 
+    /**
+     * Stellt eine One-to-Many Verbindung zum Berichtsheft-Objekt her
+     */
     @ToString.Exclude
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

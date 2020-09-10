@@ -11,5 +11,10 @@ import java.util.List;
 @Repository
 public interface ReportEntryRepository extends JpaRepository<ReportEntry, Integer> {
 
+    /**
+     * Gibt eine Liste von Berichtshefteinträgen zurück, die zur angegebenen User-ID gehören
+     * @param userId Die User ID
+     * @return Eine Liste der Berichtshefteinträge (oder leere Liste)
+     */
     List<ReportEntry> findByUserId(Integer userId);
 }

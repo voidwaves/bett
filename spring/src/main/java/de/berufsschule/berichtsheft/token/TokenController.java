@@ -14,6 +14,11 @@ public class TokenController {
 
     private final JwtTokenUtil tokenUtil;
 
+    /**
+     * Endpunkt zum Prüfen der Gültigkeit eines Tokens
+     * @param authorization Der Token, der geprüft werden soll
+     * @return true/false
+     */
     @GetMapping("/check")
     private ResponseEntity<?> checkToken(@RequestHeader("Authorization") String authorization) {
 

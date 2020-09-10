@@ -26,6 +26,12 @@ public class JwtAuthenticationController {
     private final JwtUserDetailsService userDetailsService;
     private final UserService userService;
 
+    /**
+     * Endpunkt zum Authentifizieren eines Benutzers
+     * @param jwtRequest Benutzername und Passwort werden in diesem Objekt gespeichert
+     * @return Wenn sich der User erfolgreich anmeldet, erhält er einen fünf Stunden lang güligen Token, wenn nicht
+     *         wird davor eine {@link org.springframework.security.authentication.BadCredentialsException} geworfen
+     */
     @PostMapping("/authenticate")
     private ResponseEntity<?> authenticateUser(@RequestBody JwtRequest jwtRequest) {
 
@@ -37,6 +43,11 @@ public class JwtAuthenticationController {
         return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
     }
 
+    /**
+     * Endpunkt zum Registrieren eines neuen Benutzers.
+     * @param user Das User-Objekt, welche alle Informationen des Users enthält
+     * @return HTTP 200, wenn kein Konflikt entsteht
+     */
     @PostMapping("/register")
     private ResponseEntity<?> registerUser(@RequestBody User user) {
 

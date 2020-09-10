@@ -28,6 +28,9 @@ public class ReportEntry {
     @Column(name = "user_id")
     private Integer userId;
 
+    /**
+     * Stellt eine Many-to-One Verbindung zum User-Objekt her
+     */
     @ToString.Exclude
     @JsonBackReference
     @JoinColumn(name = "user_id", insertable = false, updatable = false)

@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Prüft bei jedem Aufruf die Richtigkeit und Gültigkeit des mitgegeben Tokens
+ */
 @Component
 @Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -27,6 +30,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil tokenUtil;
 
+    /**
+     * Prüft den Token und validiert den Benutzer die Seite aufzurufen, wenn dieser korrekt und gültig ist
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,

@@ -30,6 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
+    /**
+     * Gibt an, welche Services zum authentifizieren verwendet werden sollen
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(bCryptPasswordEncoder());
@@ -46,6 +49,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * "Cross Origin Resource Sharing" wird aktiviert, damit das Frontend Zugriff hat, "Cross Site Request Forgery"
+     * wird deaktiviert. Die Endpunkte "/authenticate" und "/register" werden für alle aufrufbar gemacht, für alle anderen
+     * muss man authentifiziert sein. Es wird eine Klasse angegeben, die bestimmt, was passiert, wenn man nicht aufthentifizert
+     * auf einen gesperrten Endpunkt zugreift. Sessionmanagement wird aktiviert.
+     * Es wird ein Filter hinzugefügt, der vor jedem Aufruf ausgeführt wird.
+     */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
