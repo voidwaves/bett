@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import axios, { AxiosError } from 'axios'
 import { useLogin } from '../AppState'
 import { links } from '../Links'
@@ -7,11 +7,14 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
+// Komponente mit der die Anmeldung vorgenommen wird
 const Login: FunctionComponent = () => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const login = useLogin()
 
+  // Funktion die das Absenden der Request ans Backend übernimmt, um einen Token
+  // für die Authentifizierung zu erhalten
   const handleSubmit = () => {
     const body: ApiRequest.Login = {
       username: userName,

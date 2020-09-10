@@ -7,18 +7,18 @@ import Profile from './view/Profile'
 import ReportEntries from './view/EntryList'
 import Register from './view/Register'
 import Login from './view/Login'
-import { links } from './Links'
 import Footer from './components/Footer'
-import HomeText from './components/HomeText'
-import Navbarnavi from './components/Navigation'
 import Navigation from './components/Navigation'
 
+// Verpack die App Komponente in den Login State Provider
+// sodass diese Daten in der gesammten App verfügbar sind
 const WrappedApp = () => (
   <LoginStateProvider>
     <App />
   </LoginStateProvider>
 )
 
+// rendert die Login App oder die Core App, je nach dem ob der User angemeldet ist
 const App = () => {
   const isAuthorized = useLoginState()
   return (
@@ -35,6 +35,7 @@ const App = () => {
   )
 }
 
+// Kompoente die den Kern der Application darstellt
 const CoreApp = () => (
   <Fragment>
     <BrowserRouter>
@@ -48,6 +49,7 @@ const CoreApp = () => (
   </Fragment>
 )
 
+// Komponente die den Anmelde und Registrierungsprozess übernimmt
 const LoginApp = () => (
   <Fragment>
     <BrowserRouter>

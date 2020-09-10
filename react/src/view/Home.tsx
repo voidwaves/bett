@@ -1,16 +1,11 @@
 import React, { FunctionComponent, Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import { useLogout } from '../AppState'
-import { links } from '../Links'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Profile from './Profile'
-import Register from './Register'
 import ReportEntries from './EntryList'
 
+// Home Page mit Tabs um zwischen Report Entries un Profil zu wechseln
 const Home: FunctionComponent = () => {
-  const logout = useLogout()
-
   return (
     <Fragment>
       <div className='row  my-row'>

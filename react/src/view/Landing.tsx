@@ -1,14 +1,11 @@
 import React, { FunctionComponent, Fragment } from 'react'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
-import { Link } from 'react-router-dom'
-import { links } from '../Links'
 import Login from './Login'
 import Register from './Register'
 import HomeText from '../components/HomeText'
-import Navbarnavi from '../components/Navigation'
-import Footer from '../components/Footer'
 
+// Landing Page mit Tabs um zwischen Anmeldung und Registrierung zu wechseln
 const Landing: FunctionComponent = () => {
   return (
     <Fragment>

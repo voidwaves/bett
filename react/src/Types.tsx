@@ -1,7 +1,7 @@
-import ReportEntries from "./view/EntryList"
 
 type Modify<T, R> = Omit<T, keyof R> & R
 
+// Typisierung der in der App genutzten Objekte
 export namespace App {
   export type ReportEntry = Modify<
     ApiResponse.ReportEntry,
@@ -19,6 +19,7 @@ export namespace App {
   >
 }
 
+// Typisierung der API Responses, bzw der Objekte die zurückgeliefert werden
 export namespace ApiResponse {
   export type ReportEntry = {
     id: number
@@ -40,6 +41,7 @@ export namespace ApiResponse {
   }
 }
 
+// Typisierung der API Requests, bzw der Objekte die abgeschickt werden
 export namespace ApiRequest {
   export namespace ReportEntry {
     export type Put = Post & {

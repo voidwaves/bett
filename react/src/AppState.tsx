@@ -13,8 +13,11 @@ const defaultLoginState: LoginState = {
 }
 
 type LoginHook = [LoginState, Dispatch<LoginState>]
+// erstellt den React Context, aus dem der Login State Provider gebaut wird
+// und die Hooks um auf diesen State zuzugreifen und ihn zu modifizieren
 const LoginContext: Context<LoginHook> = createContext<LoginHook>([defaultLoginState, () => {}])
 
+// Erstellung des Login State Providers
 export const LoginStateProvider: FunctionComponent = ({ children }) => {
   const [loginState, setLoginState] = useState(defaultLoginState)
 
@@ -34,10 +37,14 @@ export const LoginStateProvider: FunctionComponent = ({ children }) => {
   )
 }
 
+// Funtionen um den Token im Sessionspeicher des Browsers abzulegen 
+
 const appKey = 'bett'
 const setToken = (token: string) => sessionStorage.setItem(appKey, token)
 const getToken = () => sessionStorage.getItem(appKey)
 const removeToken = () => sessionStorage.removeItem(appKey)
+
+// Funktionen um die Request Header für die API zu modifizieren
 
 const addTokenToHeaders = (token: string): number => {
   return axios.interceptors.request.use(config => (
@@ -50,6 +57,8 @@ const addTokenToHeaders = (token: string): number => {
 const removeTokenFromHeader = (interceptor: number) => {
   axios.interceptors.request.eject(interceptor)
 }
+
+// Hooks um auf den Login State zuzugreifen und ihn zu modifizieren
 
 const useLoginContext = () => useContext(LoginContext)
 

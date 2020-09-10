@@ -1,4 +1,5 @@
 
+// zentrale Stelle um auf die URLs im Browser und für API Requests zuzugreifen
 const apiLink = 'http://localhost:8081'
 export const links = {
     api: {

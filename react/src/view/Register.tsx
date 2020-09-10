@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
@@ -8,6 +8,8 @@ import { links } from '../Links'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
+// Komponente die die Registrierung eines neuen Users übernimmt
 const Register: FunctionComponent = () => {
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
@@ -17,6 +19,7 @@ const Register: FunctionComponent = () => {
   const [startDate, setStartDate] = useState(new Date())
   const [redirect, setRedirect] = useState(false)
 
+  // Funktion die einen neuen User mit einer Post Request im Backend anlegt
   const handleSubmit = () => {
     const body: ApiRequest.Register = {
       username: userName,

@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
+// Komponente zur Darstellung des User Profils
 const Profile: FunctionComponent = () => {
   const [fieldsDisabled, setFieldsDisabled] = useState(true)
   const [newPassword, setNewPassword] = useState('')
@@ -17,6 +18,7 @@ const Profile: FunctionComponent = () => {
   const [user, setUser] = useState<App.User | null>(null)
   const logout = useLogout()
 
+  // Request für das User Objekt ans Backend
   useEffect(() => {
     axios
       .get<ApiResponse.User>(links.api.profile)
@@ -31,6 +33,8 @@ const Profile: FunctionComponent = () => {
       .catch(() => alert('could not load profile'))
   }, [])
 
+  // Funktion die das Löschen des User Profils übernimmt und
+  // die Get Request ans Backend sendet
   const handleDelete = () => {
     if (
       user !== null &&
@@ -49,6 +53,8 @@ const Profile: FunctionComponent = () => {
     }
   }
 
+  // Funtion die das Speichern des User Profils übernimmt und
+  // die Post Request ans Backend sendet
   const handleSave = () => {
     if (user !== null) {
       const passwordsMatch = newPassword === confirmPassword

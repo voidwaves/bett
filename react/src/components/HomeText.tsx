@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Test für die Landing Page
 const HomeText = () => {
   return (
     <div>

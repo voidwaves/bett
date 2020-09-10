@@ -2,16 +2,17 @@
 import { format, parse, addDate } from 'ts-date'
 import { ChangeEvent, Dispatch } from 'react'
 
+// Funktionen zum Konvertieren von Daten ywischen Objekt und String
 const pattern = 'YYYY-MM-DD'
-
 export const dateToString = (date: Date): string => format(date, pattern) as string
-
 export const stringToDate = (dateString: string): Date => parse(dateString, pattern) as Date
 
 const resetTime = (date: Date): Date => {
     date.setHours(0, 0, 0, 0)
     return date
 }
+
+// Funktionen für boolean Vergleiche mit Date Objekten
 
 export const isEqual = (first: Date, second: Date): boolean => {
     const [resetFirst, resetSecond] = [resetTime(first), resetTime(second)]
@@ -27,6 +28,8 @@ export const isLater = (first: Date, second: Date): boolean => {
     const [resetFirst, resetSecond] = [resetTime(first), resetTime(second)]
     return resetFirst.getTime() > resetSecond.getTime()
 }
+
+// weitere Helper Funktionen für das Arbeiten mit Date Objekten
 
 export const isInRange = (target: Date, start: Date, end: Date) => {
     const [targetTime, startTime, endTime] = [target, start, end]
@@ -57,6 +60,13 @@ export const isWeekDay = (date: Date): boolean => {
     return ![0, 6].includes(date.getDay())
 }
 
+export const weekNumber = (date: Date) => {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+}
+
+// Helper Funktione um Boiler Plate Code für Input Elemente zu reduzieren
 export const fromEvent = function (setter: Dispatch<string>) {
     return (event: ChangeEvent<HTMLInputElement>) => setter(event.target.value)
 }

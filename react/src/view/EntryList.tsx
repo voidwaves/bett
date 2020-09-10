@@ -8,21 +8,23 @@ import Button from 'react-bootstrap/Button'
 import jsPDFGenerator from '../utility/jsPDFGenerator'
 import Form from 'react-bootstrap/Form'
 import { dateToString, dateRange, stringToDate, weekDateRange, isWeekDay, isEqual} from '../utility/utils'
-import EntryListItem from './EntryListItem'
+import EntryListItem from '../components/EntryListItem'
 
-const ReportEntries: FunctionComponent = () => {
-  //const [[start, end], setWeekRange] = useState(weekDateRange(new Date(), new Date()))
+// Komponente um die Liste an Report Entries zu rendern und das Datum auszuwählen
+const EntryList: FunctionComponent = () => {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   const [reportEntries, setReportEntries] = useState<ApiResponse.ReportEntry[] | null>(null)
   const [fullEntryList, setFullEntryList] = useState<App.ReportEntry[] | null>(null)
   const [user, setUser] = useState<App.User | null>(null)
 
+  // API Requests die nach dem rendern ausgeführt werden
   useEffect(() => {
     getUser()
     getReportEntries()
   }, [])
 
+  // API Request für das User Objekt
   const getUser = () => {
     axios
     .get<ApiResponse.User>(links.api.profile)
@@ -39,6 +41,7 @@ const ReportEntries: FunctionComponent = () => {
     .catch(() => alert('Could not get user data from api!'))
   }
 
+  // API Request für die Liste an Report Entries
   const getReportEntries = () => {
     axios
     .get<ApiResponse.ReportEntry[]>(links.api.reportEntries)
@@ -46,6 +49,8 @@ const ReportEntries: FunctionComponent = () => {
     .catch(() => alert('Could not get report entries from api!'))
   }
 
+  // zusammenführen der Liste aus Report Entries aus dem Backend mit den noch
+  // nicht getätigten Report Entries für den jeweiligen Zeitraum
   useEffect(() => {
     if (reportEntries !== null && user !== null) {
       const allDates = dateRange(startDate, endDate)
@@ -74,6 +79,7 @@ const ReportEntries: FunctionComponent = () => {
     }
   }, [reportEntries, user, startDate, endDate])
 
+  // ändere den audgewählten Zeitraum
   const onDateChange = (date: Date) => {
     if(user !== null) {
       const [newStartDate, newEndDate] = weekDateRange(date, user.beginOfApprenticeship)
@@ -82,8 +88,7 @@ const ReportEntries: FunctionComponent = () => {
     }
   }
 
-  // random key prop to force rerender
-
+  // rendern der Liste aus gemachten und noch nicht gemachten Report Entries und des Date Pickers
   return user === null || reportEntries === null ? null : (
     <Fragment>
       <div className='row' style={{marginTop: 30, marginBottom: 30}}>
@@ -133,4 +138,4 @@ const ReportEntries: FunctionComponent = () => {
   )
 }
 
-export default ReportEntries
+export default EntryList

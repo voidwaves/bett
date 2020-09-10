@@ -16,18 +16,19 @@ type EntryListItemProps = {
 
 // todo: include pop up, pop up fields are input fields disabled by default
 const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, reload }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [fieldsDisabled, setFieldsDisabled] = useState(true)
   const [workingHours, setWorkingHours] = useState(reportEntry.workingHours)
   const [department, setDepartment] = useState(reportEntry.department)
   const [content, setContent] = useState(reportEntry.content)
 
+  // verwerfen der Änderungen
   const resetInputs = () => {
     setWorkingHours(reportEntry.workingHours)
     setDepartment(reportEntry.department)
     setContent(reportEntry.content)
   }
 
+  // Funktion die das Löschen eines Report Entries übernimmt, sendet Delete Request ans Backend
   const handleDelete = () => {
     if (window.confirm('Do you really want to delete this report entry?')) {
       const { id } = reportEntry
@@ -43,6 +44,8 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
     }
   }
 
+  // Funktion die dass Speichern eines Report Entries übernimmt, sendet eine Post oder
+  // Put Request ans Backend, je nachdem ob der Eintrag bereits existiert
   const handleSave = () => {
     const { id } = reportEntry
 
@@ -81,11 +84,6 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
         alert('Could not create new report entry')
       })
     }
-  }
-
-  const handleClose = () => {
-    setIsModalOpen(false)
-    resetInputs()
   }
 
   return (
