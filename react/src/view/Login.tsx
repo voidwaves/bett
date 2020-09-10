@@ -1,5 +1,5 @@
 import React, { FunctionComponent, Fragment, useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useLogin } from '../AppState'
 import { links } from '../Links'
 import { ApiRequest } from '../Types'
@@ -23,7 +23,10 @@ const Login: FunctionComponent = () => {
       .then((response) => {
         login(response.data.token)
       })
-      .catch(() => {
+      .catch((error: AxiosError) => {
+        const unauthorized = error.response?.status === 401
+        if(unauthorized) alert('invalid credentials, please try again')
+        else alert('could not connect to backend services')
         setPassword('')
       })
   }
@@ -39,14 +42,16 @@ const Login: FunctionComponent = () => {
               name='username'
               type='text'
               placeholder='z.B abcds@blabla.de'
+              value={userName}
             />
           </Form.Group>
           <Form.Group controlId='formBasicPassword'>
             <Form.Label>Password</Form.Label>
             <Form.Control
               onChange={(event) => setPassword(event.target.value)}
-              name='Password'
+              name='password'
               type='password'
+              value={password}
             />
           </Form.Group>
           <Button variant='secondary' onClick={handleSubmit}>
