@@ -93,7 +93,7 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
       <Accordion defaultActiveKey='0'>
         <Card
           style={{
-            backgroundColor: reportEntry.exists ? 'lightgreen' : 'lightgrey',
+            backgroundColor: reportEntry.exists ? 'lightblue' : 'lightgrey',
           }}
         >
           <Accordion.Toggle as={Card.Header} eventKey='0'>

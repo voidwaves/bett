@@ -61,3 +61,13 @@ code {
 .registerEntry {
   background-color: red;
 }
+
+.date-highlight {
+  background-color: lightblue;
+  border-radius: 5px;
+}
+
+.date-no-highlight {
+  background-color: lightgray;
+  border-radius: 5px;
+}

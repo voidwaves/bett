@@ -7,7 +7,7 @@ import { links } from '../Links'
 import Button from 'react-bootstrap/Button'
 import jsPDFGenerator from '../utility/jsPDFGenerator'
 import Form from 'react-bootstrap/Form'
-import { dateToString, dateRange, stringToDate, weekDateRange, isWeekDay} from '../utility/utils'
+import { dateToString, dateRange, stringToDate, weekDateRange, isWeekDay, isEqual} from '../utility/utils'
 import EntryListItem from './EntryListItem'
 
 const ReportEntries: FunctionComponent = () => {
@@ -101,7 +101,16 @@ const ReportEntries: FunctionComponent = () => {
             maxDate={new Date()}
             filterDate={isWeekDay}
             shouldCloseOnSelect={false}
-            highlightDates={reportEntries.map((entry) => stringToDate(entry.reportDate))}
+            highlightDates={[
+              {
+                "date-no-highlight": dateRange(user.beginOfApprenticeship, new Date())
+                .filter(date => isWeekDay(date))
+                .filter(date => reportEntries.find(entry => isEqual(stringToDate(entry.reportDate), date)) === undefined)
+              },
+              {
+                "date-highlight": reportEntries.map((entry) => stringToDate(entry.reportDate))
+              }
+            ]}
             showWeekNumbers
             showMonthDropdown
             showYearDropdown
