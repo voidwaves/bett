@@ -34,7 +34,6 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
       axios
         .delete(links.api.reportEntryDelete(id))
         .then(() => {
-          alert('Successfully deleted the report entry')
           reload()
           resetInputs()
         })
@@ -64,7 +63,8 @@ const EntryListItem: FunctionComponent<EntryListItemProps> = ({ reportEntry, rel
       .catch(() => {
         alert('Could not save existing report entry')
       })
-    } else {
+    } 
+    else {
       const body: ApiRequest.ReportEntry.Post = {
         content,
         workingHours,

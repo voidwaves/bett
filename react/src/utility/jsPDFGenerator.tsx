@@ -12,7 +12,7 @@ const separator = Array.from(Array(72))
 .join('')
 
 const jsPdfGenerator = (week: App.ReportEntry[], user: App.User) => {
-  const [monday, friday] = [week[0], week[4]]
+  const [monday, friday] = [week[0], week[week.length - 1]]
   
   const doc = new jsPDF('p', 'pt')
   doc.setFont('courier')

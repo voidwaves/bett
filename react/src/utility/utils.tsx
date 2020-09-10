@@ -42,11 +42,15 @@ export const dateRange = (start: Date, end: Date): Date[] => {
     return isEqual(start, end) ? [end] : [start, ...dateRange(newStart, end)]
 }
 
-export const weekDateRange = (date: Date): [Date, Date] => {
+export const weekDateRange = (date: Date, minDate: Date, maxDate = new Date()): [Date, Date] => {
     const weekstart = date.getDate() - date.getDay() + 1
     const monday = new Date(date.setDate(weekstart))
     const friday = addDate(monday, 4)
-    return [monday, friday]
+
+    const startDay = isEarlier(monday, minDate) ? minDate : monday
+    const endDay = isLater(friday, maxDate) ? maxDate : friday
+
+    return [startDay, endDay]
 }
 
 export const isWeekDay = (date: Date): boolean => {

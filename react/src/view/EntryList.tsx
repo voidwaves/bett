@@ -11,9 +11,9 @@ import { dateToString, dateRange, stringToDate, weekDateRange, isWeekDay} from '
 import EntryListItem from './EntryListItem'
 
 const ReportEntries: FunctionComponent = () => {
-  const [monday, friday] = weekDateRange(new Date())
-  const [startDate, setStartDate] = useState(monday)
-  const [endDate, setEndDate] = useState(friday)
+  //const [[start, end], setWeekRange] = useState(weekDateRange(new Date(), new Date()))
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
   const [reportEntries, setReportEntries] = useState<ApiResponse.ReportEntry[] | null>(null)
   const [fullEntryList, setFullEntryList] = useState<App.ReportEntry[] | null>(null)
   const [user, setUser] = useState<App.User | null>(null)
@@ -26,12 +26,16 @@ const ReportEntries: FunctionComponent = () => {
   const getUser = () => {
     axios
     .get<ApiResponse.User>(links.api.profile)
-    .then((response) =>
+    .then(response => {
       setUser({
         ...response.data,
         beginOfApprenticeship: stringToDate(response.data.beginOfApprenticeship)
       })
-    )
+
+      const [start, end] = weekDateRange(new Date(), stringToDate(response.data.beginOfApprenticeship))
+      setStartDate(start)
+      setEndDate(end)
+    })
     .catch(() => alert('Could not get user data from api!'))
   }
 
@@ -47,9 +51,7 @@ const ReportEntries: FunctionComponent = () => {
       const allDates = dateRange(startDate, endDate)
       setFullEntryList(
         allDates.map((date) => {
-          const matchingEntry = reportEntries.find(
-            (entry) => entry.reportDate === dateToString(date)
-          )
+          const matchingEntry = reportEntries.find((entry) => entry.reportDate === dateToString(date))
           const emptyEntry: App.ReportEntry = {
             id: -1,
             exists: false,
@@ -73,9 +75,11 @@ const ReportEntries: FunctionComponent = () => {
   }, [reportEntries, user, startDate, endDate])
 
   const onDateChange = (date: Date) => {
-    const [newStartDate, newEndDate] = weekDateRange(date)
-    setStartDate(newStartDate)
-    setEndDate(newEndDate)
+    if(user !== null) {
+      const [newStartDate, newEndDate] = weekDateRange(date, user.beginOfApprenticeship)
+      setStartDate(newStartDate)
+      setEndDate(newEndDate)
+    }
   }
 
   // random key prop to force rerender
