@@ -36,7 +36,7 @@ const jsPdfGenerator = (week: App.ReportEntry[], user: App.User) => {
   week.forEach((day, i) => {
     doc.text(separator, 70, 160 + (i * 100))
     doc.text(day.reportDate.toLocaleDateString('de-DE', {weekday: 'long'}), 70, 180 + (i * 100))
-    doc.text(day.content, 145, 180 + (i * 100))
+    doc.text(`${day.department}: ${day.content}`, 145, 180 + (i * 100))
     doc.text(day.workingHours.toString(), 480, 180 + (i * 100))
   })
 
