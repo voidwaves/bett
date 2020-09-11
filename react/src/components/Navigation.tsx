@@ -4,10 +4,11 @@ import Navbar from 'react-bootstrap/Navbar'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useLogout } from '../AppState'
+import { useLogout, useLoginState } from '../AppState'
 
 // Navigationsleiste mit dem Logout Button
 const Navigation = () => {
+  const loggedIn = useLoginState()
   const logout = useLogout()
 
   return (
@@ -16,9 +17,11 @@ const Navigation = () => {
         <Navbar.Brand href='http://localhost:3000/landing'>Bett</Navbar.Brand>
         <Nav className='mr-auto'></Nav>
         <Form inline>
-          <Button variant='outline-info' onClick={logout}>
-            Logout
-          </Button>
+          {!loggedIn ? null : (
+            <Button variant='outline-info' onClick={logout}>
+              Logout
+            </Button>
+          )}
         </Form>
       </Navbar>
     </>
