@@ -41,7 +41,7 @@ const Register: FunctionComponent = () => {
   }
 
   return redirect ? (
-    <Redirect to='/landing' />
+    <Redirect to={links.browser.landing} />
   ) : (
     <>
       <div className=' registerForm'>

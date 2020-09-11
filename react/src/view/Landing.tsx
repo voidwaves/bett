@@ -8,7 +8,7 @@ import HomeText from '../components/HomeText'
 // Landing Page mit Tabs um zwischen Anmeldung und Registrierung zu wechseln
 const Landing: FunctionComponent = () => {
   return (
-    <Fragment>
+    <Fragment key={Math.random()}>
       <div className='row  my-row'>
         <div className='col-md-6 col-sm-6 my-col-Login2'>
           <HomeText />
