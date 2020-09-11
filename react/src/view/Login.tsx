@@ -44,7 +44,7 @@ const Login: FunctionComponent = () => {
               onChange={(event) => setUserName(event.target.value)}
               name='username'
               type='text'
-              placeholder='z.B abcds@blabla.de'
+              placeholder='username'
               value={userName}
             />
           </Form.Group>
